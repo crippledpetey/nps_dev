@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/23181997/magento-add-captcha-to-custom-contact-form

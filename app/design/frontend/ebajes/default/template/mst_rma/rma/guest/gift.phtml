@@ -1,0 +1,39 @@
+<div class='fieldset'>
+    <ul class="form-list">
+        <li class="control">
+            <div class="input-box">
+                <input type='checkbox' name="is_gift" id='is_gift' value="1" onclick="jQuery('#gift_fields').toggle();"/>
+                <label for="is_gift"><?php echo $this->__("This was a gift, please do not notify purchaser") ?></label>
+            </div>
+        </li>
+    </ul>
+</div>
+<div id='gift_fields' class='fieldset' style="display: none;">
+    <h2 class="legend"><?php echo $this->__("Enter your contact information") ?></h2>
+    <ul class="form-list">
+        <li class="wide">
+            <label for="firstname" class="required"><em>*</em><?php echo $this->__("First Name") ?></label>
+            <div class="input-box">
+                <input type='text' name="gift[firstname]" id='firstname' class="input-text required-entry" value=""/>
+            </div>
+        </li>
+        <li class="wide">
+            <label for="lastname" class="required"><em>*</em><?php echo $this->__("Last Name") ?></label>
+            <div class="input-box">
+                <input type='text' name="gift[lastname]" id='lastname' class="input-text required-entry" value=""/>
+            </div>
+        </li>
+        <li class="wide">
+            <label for="email" class="required"><em>*</em><?php echo $this->__("Email") ?></label>
+            <div class="input-box">
+                <input type='text' name="gift[email]" id='email' class="input-text required-entry" value=""/>
+            </div>
+        </li>
+        <li class="wide">
+            <label for="telephone" class="required"><em>*</em><?php echo $this->__("Telephone") ?></label>
+            <div class="input-box">
+                <input type='text' name="gift[telephone]" id='telephone' class="input-text required-entry" value=""/>
+            </div>
+        </li>
+    </ul>
+</div>

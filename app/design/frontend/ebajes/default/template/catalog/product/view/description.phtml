@@ -1,0 +1,111 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product description template
+ *
+ * @see Mage_Catalog_Block_Product_View_Description
+ */
+require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/nps.shortcodes.class.php');
+require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.view.class.php');
+
+$npsSC = new needPlumbingShortcodes;
+$nps_prdctrl = new productView;
+
+
+$prd = $this->getProduct();
+$prd_vids = array();
+for( $i=1; $i<=6; $i++){
+    $value = array();
+    //set video values
+    $vid_attr_model = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'product_video_' . $i);
+    $vid_attr_val = $vid_attr_model->getFrontend()->getValue($prd);
+
+    $vid_title_attr_model = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'product_video_' . $i . '_title');
+    $vid_title_attr_val = $vid_title_attr_model->getFrontend()->getValue($prd);
+    
+    //set values
+    $value['code'] = null;
+    $value['title'] = null;
+    if( $vid_attr_val ){
+        $value['code'] = $vid_attr_val;
+    }
+    if( $vid_title_attr_val ){
+        $value['title'] = $vid_title_attr_val;
+    }
+    if( !empty( $value['code'] ) ){
+        $prd_vids[] = $value;
+    }    
+}
+ 
+?>
+<?php if (!empty( $prd_vids ) ): ?>
+    <h2><?php echo $this->__('Product Videos') ?></h2>
+    <div class="std prd-videos">
+        <ul>
+            <?php
+            foreach( $prd_vids as $key=>$video ){
+                if( !empty( $video['code'] ) ){
+                    $url = 'https://www.youtube.com/watch?v=' . $video['code'] . '&html5=true';
+                    $thumb = 'http://img.youtube.com/vi/' . $video['code'] . '/0.jpg';
+                    echo '<li><a class="trigger-video-pop tooltip" title="' . $video['title'] . '" data-trigger-id-key="' . $key . '" id="' . $key . '-video-pop-trigger" style="display: block;"><img src="' . $thumb . '"></a><div id="' . $key . '-video-pop" class="hidden video-pop"><a title="Close" class="video-pop-close fancybox-item fancybox-close" href="javascript:;"></a><iframe src="https://www.youtube.com/embed/' . $video['code'] . '" frameborder="0" allowfullscreen controls="controls" class="video-stream" x-webkit-airplay="allow" ></iframe></div></li>';
+                }
+            }
+            ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
+<?php $_description = $prd->getDescription(); ?>
+<?php if ($_description): ?>
+    <h2><?php echo $this->__('Product Description') ?></h2>
+    <div class="std">
+
+        <?php
+        	//get the description
+        	$prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
+        	//get array of description shortcode locations
+        	$shortcodes = $npsSC->getShotcodeLocations( $prd_desc );        	
+        	//if there are shortcodes process them
+        	if( $shortcodes ){
+        		//get the data
+        		$shortcodes = $npsSC->getShortcodeData( $shortcodes, $prd_desc );
+        		//reset the description with the new shortcodes
+        		$prd_desc = $npsSC->processShortcodeData( $shortcodes, $prd_desc );
+        	}
+        	//ouput description
+        	echo $prd_desc;
+        ?>
+    </div>
+<?php endif; ?>
+<?php
+    //output special description regions (attribute controlled)
+    echo $nps_prdctrl->getFeatures( $prd, $npsSC );
+    echo $nps_prdctrl->getSpecs( $prd, $npsSC );
+    echo $nps_prdctrl->getTech( $prd, $npsSC );
+    echo $nps_prdctrl->getMaint( $prd, $npsSC );
+
+?>

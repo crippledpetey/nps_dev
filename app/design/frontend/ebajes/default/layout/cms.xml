@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<layout version="0.1.0">
+<!--
+Default layout, loads most of the pages
+-->
+
+    <default>
+        <reference name="footer">
+            <block type="cms/block" name="cms_footer_links" before="footer_links">
+                <!--
+                    The content of this block is taken from the database by its block_id.
+                    You can manage it in admin CMS -> Static Blocks
+                -->
+                <action method="setBlockId"><block_id>footer_links</block_id></action>
+            </block>
+			<block type="cms/block" name="ebajes_footer_links">
+                <action method="setBlockId"><block_id>ebajes_footer_links</block_id></action>
+            </block>
+			
+			<block type="newsletter/subscribe" name="footer.newsletter" template="newsletter/subscribe.phtml"/>
+			<block type="cms/block" name="ebajes_footer_stay_connected">
+                <action method="setBlockId"><block_id>ebajes_footer_stay_connected</block_id></action>
+            </block>
+
+			<block type="cms/block" name="nps_quicklinks_footer_1">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_1</block_id></action>
+            </block>
+			<block type="cms/block" name="nps_quicklinks_footer_2">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_2</block_id></action>
+            </block>
+			<block type="cms/block" name="nps_quicklinks_footer_3">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_3</block_id></action>
+            </block>
+			<block type="cms/block" name="nps_quicklinks_footer_4">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_4</block_id></action>
+            </block>
+			<block type="cms/block" name="nps_quicklinks_footer_5">
+                <action method="setBlockId"><block_id>nps_quicklinks_footer_5</block_id></action>
+            </block>
+                           
+			<block type="directory/currency" name="currency" template="directory/currency.phtml"/>
+        </reference>
+		 <reference name="header">
+            <block type="cms/block" name="ebajes_header_block_info">
+                <action method="setBlockId"><block_id>ebajes_header_block_info</block_id></action>
+            </block>
+			<block type="checkout/cart_sidebar" name="cart_sidebar_top" as="cart_sidebar_top" template="checkout/cart/sidebar.phtml">
+				<action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+				<action method="addItemRender"><type>virtual</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+				<action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
+				<action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
+				<block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
+					<label>Shopping Cart Sidebar Extra Actions</label>
+				</block>
+			</block>
+        </reference>
+		
+		
+		
+		 <reference name="top.links">
+			<block type="wishlist/links" name="wishlist_link" />
+            <action method="addLinkBlock"><blockName>wishlist_link</blockName><position>11</position></action>
+            <block type="checkout/links" name="checkout_cart_link">
+                <action method="addCartLink"></action>
+                <action method="addCheckoutLink"></action>
+            </block>
+        </reference>
+    </default>
+    
+    <cms_page translate="label">
+        <label>CMS Pages (All)</label>
+        <reference name="content">
+            <block type="core/template" name="page_content_heading" template="cms/content_heading.phtml"/>
+            <block type="page/html_wrapper" name="cms.wrapper" translate="label">
+                <label>CMS Content Wrapper</label>
+                <action method="setElementClass"><value>std</value></action>
+                <block type="cms/page" name="cms_page"/>
+            </block>
+        </reference>
+    </cms_page>
+
+    <cms_index_index translate="label">
+        <label>CMS Home Page</label>
+		<reference name="content">
+			<block type="slideshow/slides" name="slides" template="ev_slideshow/slides.phtml"/>
+            <block type="cms/block" name="ebajes_account_homepage">
+                <action method="setBlockId"><block_id>ebajes_account_homepage</block_id></action>
+            </block>
+			<block type="cms/block" name="ebajes_homepage_advertisement">
+                <action method="setBlockId"><block_id>ebajes_homepage_advertisement</block_id></action>
+            </block>
+			<block type="cms/block" name="ebajes_homepage_best_sellers">
+                <action method="setBlockId"><block_id>ebajes_homepage_best_sellers</block_id></action>
+            </block>
+			<block type="core/template" name="content_home_tab" template="cms/content_home_tab.phtml" />
+				
+        </reference>
+		<reference name="content_home_tab">
+			<block type="cms/block" name="ebajes_new_products_home_tab">
+				<action method="setBlockId"><block_id>ebajes_new_products_home_tab</block_id></action>
+			</block>
+			<block type="cms/block" name="ebajes_featured_products_home_tab">
+				<action method="setBlockId"><block_id>ebajes_featured_products_home_tab</block_id></action>
+			</block>
+			<block type="cms/block" name="ebajes_sale_products_home_tab">
+				<action method="setBlockId"><block_id>ebajes_sale_products_home_tab</block_id></action>
+			</block>
+		</reference>
+		<reference name="left">
+			<block type="cms/block" name="ebajes_quick_selections_sidebar">
+                <action method="setBlockId"><block_id>ebajes_quick_selections_sidebar</block_id></action>
+            </block>
+			<block type="cms/block" name="ebajes_home_left_ads_1">
+                <action method="setBlockId"><block_id>ebajes_home_left_ads_1</block_id></action>
+            </block>
+			<block type="cms/block" name="ebajes_home_left_ads_2">
+                <action method="setBlockId"><block_id>ebajes_home_left_ads_2</block_id></action>
+            </block>
+			<remove name="left.permanent.callout" />
+			<remove name="tags_popular"/>
+			<remove name="left.newsletter"/>
+		</reference>
+		<reference name="top.main">
+			<block type="cms/block" name="main_slideshow">
+                <action method="setBlockId"><block_id>ebajes_main_slideshow</block_id></action>
+            </block>
+		</reference>
+    </cms_index_index>
+
+    <cms_index_defaultindex>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="default_home_page" template="cms/default/home.phtml"/>
+        </reference>
+    </cms_index_defaultindex>
+
+    <cms_index_noroute translate="label">
+        <label>CMS No-Route Page</label>
+    </cms_index_noroute>
+
+    <cms_index_defaultnoroute>
+        <remove name="right"/>
+        <remove name="left"/>
+        
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="default_no_route" template="cms/default/no-route.phtml"/>
+        </reference>
+    </cms_index_defaultnoroute>
+
+</layout>

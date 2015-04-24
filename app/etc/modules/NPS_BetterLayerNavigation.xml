@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <NPS_BetterLayerNavigation>
+            <active>true</active>
+            <codePool>local</codePool>
+        </NPS_BetterLayerNavigation>
+    </modules>
+</config>

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ *
+ * @category    Local
+ * @package     NPS
+ * @copyright   Copyright (c) 2014 Need Plumbing Supplies (http://www.needplumbingsupplies.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <NPS_PurchaseOrderManagement>
+            <version>0.1.0</version>
+        </NPS_PurchaseOrderManagement>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <NPS_PurchaseOrderManagement after="Mage_Adminhtml">NPS_PurchaseOrderManagement</NPS_PurchaseOrderManagement>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <global>
+        <models>
+            <!-- Unique identifier in the model's node. By convention, we put the module's name in lowercase. -->
+            <nps_purchaseordermanagement>
+
+                <!--The path to our models directory, with directory separators replaced by underscores-->
+                <class>NPS_PurchaseOrderManagement_Model</class>
+            </nps_purchaseordermanagement>
+        </models>
+        <!-- Defining an event observer -->
+        <events>
+            <!-- The code of the event we want to observe -->
+            <catalog_product_save_after>
+                <!-- Defining an observer for this event -->
+                <observers>
+                    <!--Unique identifier within the catalog_product_save_after node. By convention, we write the module's name in lowercase. -->
+                    <nps_purchaseordermanagement>
+                        <!-- The model to be instantiated -->
+                        <class>nps_purchaseordermanagement/observer</class>
+                        <!-- The method of the class to be called -->
+                        <method>logUpdate</method>
+                        <!-- The type of class to instantiate -->
+                        <type>singleton</type>
+                    </nps_purchaseordermanagement>
+                </observers>
+            </catalog_product_save_after>
+        </events>
+    </global>
+</config>

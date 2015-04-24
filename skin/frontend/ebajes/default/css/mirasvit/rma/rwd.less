@@ -1,0 +1,242 @@
+@import "base.less";
+
+
+/* @mirasvit rma for Magento 1.9.0.1 begin */
+
+/*--- Variables ---*/
+
+@header-f-size: 16px;
+@header-f-weight: 600;
+@def-margin-bottom: 15px;
+@font-family-style-1: "Helvetica Neue",Verdana,Arial,sans-serif;
+@font-family-style-2: Georgia,Times,"Times New Roman",serif;
+@def-f-size: 14px;
+@def-f-weight: 100;
+
+
+/*--- Variables ---*/
+
+
+/*---------- Create New RMA Guest Step 1 ---------*/
+
+#order-information {
+	font-size: @header-f-size;
+  font-weight: @header-f-weight;
+  margin-top: 15px;
+}
+form#rma-form-validate div.fieldset ul.form-list li div.input-box input.input-text {
+	font-size: @def-f-size;
+}
+
+
+/*---------- Create New RMA Guest Step 2 ---------*/
+#request-information {
+  font-size: @header-f-size;
+  font-weight: @header-f-weight;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset table {
+  margin-bottom: @def-margin-bottom;
+}
+#items-in-order {
+	font-size: @header-f-size;
+  font-weight: @header-f-weight;
+}
+form#rma-form-validate.MultiFile-intercepted div#rma-items.fieldset {
+	margin-bottom: @def-margin-bottom;
+}
+#additional-information {
+	font-size: @header-f-size;
+	font-weight: @header-f-weight;
+}
+#policy-title {
+	font-size: @header-f-size;
+	font-weight: @header-f-weight;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list li.control div.input-box {
+	margin-bottom: @def-margin-bottom;
+}
+#agree-input-box {
+	margin-bottom: @def-margin-bottom;
+}
+form#rma-form-validate.MultiFile-intercepted div.buttons-set p.required {
+	float: left;
+}
+#user-conditional, #total-qty, #label {
+	font-family: @font-family-style-1;
+	font-size: @def-f-size;
+	font-weight: @def-f-weight;
+	width: 150px;
+}
+#em-requered {
+	font-family: @font-family-style-1;
+	color: red;
+	font-size: 12px;
+	font-weight: @def-f-weight;
+}
+#another-rma {
+	font-family: @font-family-style-2;
+	font-style: italic;
+  font-size: 13px;
+}
+#rma-user-adress {
+font-family: @font-family-style-2;
+    font-style: italic;
+    font-size: 13px;
+}
+form#rma-form-validate.MultiFile-intercepted div#rma-items.fieldset div.rma-one-item div.item-options div input.input-text.required-entry.validate-rma-quantity {
+	text-align: center;
+	font-size: @def-f-size;
+	font-family: @font-family-style-1;
+	height: 26px;
+}
+form#rma-form-validate.MultiFile-intercepted div#rma-items.fieldset div.rma-one-item div.item-description {
+	width: 50%;
+	float: left;
+	margin-bottom: @def-margin-bottom;
+}
+form#rma-form-validate.MultiFile-intercepted div#rma-items.fieldset div.rma-one-item div.item-options {
+	width: 50%;
+	float: left;
+	border-left: 1px solid #ededed;
+}
+form#rma-form-validate.MultiFile-intercepted div#rma-items.fieldset div.rma-one-item div.item-options div select.required-entry {
+	width: 200px;
+}
+form#rma-form-validate.MultiFile-intercepted div#rma-items.fieldset div.rma-one-item div.item-options div {
+	margin-bottom: 2px;
+	margin-left: 10px;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list {
+	width: 70%;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list li.control label {
+	padding-left: 0px;
+	font-family: @font-family-style-1;
+	font-size: @def-f-size;
+	font-weight: @def-f-weight;
+	background-color: #fff;
+  float: left;
+  min-width: 0px;
+  float: left;
+  width: 120px;
+}
+div.fieldset ul.form-list li.control input {
+	float: left;
+	width: 80%;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list li.control p {
+	float: right;
+	width: 100%;
+	padding-left: 21%;
+}
+@media all and (max-width: 1230px){
+	form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list li.control p {
+		padding-left: 0px;
+	}
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list li.control select#drop.select.required-entry.select {
+	width: 80%;
+}
+#user-description { 
+  font-family: @font-family-style-2;
+  font-style: italic;
+  font-size: 13px;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list li.control input.checkbox {
+	position: relative;
+  right: 41%;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list li.control textarea.textarea {
+	width: 80%;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset ul.form-list li.wide div.input-box textarea#comment.input-text {
+	width: 100%;
+	font-size: @def-f-size;
+}
+#policy-text {
+	width: 140%;
+}
+div#agree-input-box.input-box input#agree.required-entry.checkbox {
+	position: relative;
+	right: 17px;
+  top: 1px;
+  width: 20px;
+  margin-right: 0px;
+}
+#agree-input-box.agree {
+	padding-left: 20px;
+}
+
+
+/*---------- RMA Guest View ---------*/
+
+#items-rma-request-for {
+	font-size: @header-f-size;
+  font-weight: @header-f-weight;
+  margin-top: 15px;
+}
+#add-comment {
+	font-size: @header-f-size;
+  font-weight: @header-f-weight;
+}
+#rma-table {
+	margin-bottom: @def-margin-bottom;
+}
+#rma-history { 
+	font-size: @header-f-size;
+  font-weight: @header-f-weight;
+}
+#rma-history-name {
+  font-size: @header-f-size;
+  margin-top: 10px;
+}
+form#rma-form-validate.MultiFile-intercepted div.fieldset {
+	margin-bottom: @def-margin-bottom;
+}
+
+
+/*---------- RMA User New Step 1 ---------*/
+#please-select-order {
+	font-size: @header-f-size;
+  font-weight: @header-f-weight;
+}
+
+/*---------- RMA Shipping Confirmation User ------*/
+#shipping-confirmation {
+	font-size: @header-f-size;
+  font-weight: @header-f-weight;
+  margin-top: 15px;
+}
+div#rma-confirmation-form.rma-confirmation-form div.close {
+  cursor: pointer;
+  position: absolute;
+  right: 30px;
+}
+form#rma-confirmation-form-validate.MultiFile-intercepted ul.form-list li.control label {
+	padding-left: 0px;
+	font-family: @font-family-style-1;
+	font-size: @def-f-size;
+	font-weight: @def-f-weight;
+	background-color: #fff;
+  float: left;
+  min-width: 0px;
+  width: 120px;
+}
+form#rma-confirmation-form-validate.MultiFile-intercepted ul.form-list li.control input.checkbox {
+	float: none;
+  position: relative;
+  right: 14px;
+}
+form#rma-confirmation-form-validate.MultiFile-intercepted ul.form-list li.control p#user-description {
+	padding-left: 14%;
+}
+@media all and (max-width: 600px){
+	form#rma-confirmation-form-validate.MultiFile-intercepted ul.form-list li.control p#user-description {
+		padding-left: 0px;
+	}
+}
+
+
+/*---------- RMA Shipping Confirmation Guest ------*/
+
+/* @mirasvit rma for Magento 1.9.0.1 end */

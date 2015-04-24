@@ -1,0 +1,4 @@
+/*====================================================== Purchase Order Styles ====================================================== */
+.vendor-purchase-order-tables .bkg-danger, .vendor-purchase-order-tables .bkg-success {color: #fff; text-shadow: 1px 1px 1px #000;}
+.vendor-purchase-order-tables .bkg-danger {background: rgba(220,12,28,.6);}
+.vendor-purchase-order-tables .bkg-success {background: rgba(103, 191, 72, 0.6);}

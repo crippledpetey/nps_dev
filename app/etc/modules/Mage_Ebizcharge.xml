@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+/**
+ * eBizCharge Magento Plugin.
+ * v1.0.4 - March 6th, 2013
+ * 
+ * For assistance please contact support@ebizcharge.com
+ * 
+ * Copyright (c) 2013 Century Business Solutions
+ * All rights reserved.
+ * 
+ * 
+ * @category    Mage
+ * @package     Mage_Ebizcharge_Block_Form
+ * @copyright   Copyright (c) 2013 Century Business Solutions  (www.centurybizsolutions.com)
+ */
+ */
+-->
+<config>
+    <modules>
+        <Mage_Ebizcharge>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Sales />
+                <Mage_Payment/>
+            </depends>
+        </Mage_Ebizcharge>
+    </modules>
+</config>

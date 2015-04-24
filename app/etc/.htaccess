@@ -1,0 +1,10 @@
+Order deny,allow
+Deny from all
+<Files config.xml>
+    order allow,deny
+    deny from all
+</Files>
+<Files local.xml>
+    order allow,deny
+    deny from all
+</Files>

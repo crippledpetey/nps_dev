@@ -1,0 +1,114 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product additional attributes template
+ *
+ * @see Mage_Catalog_Block_Product_View_Attributes
+ */
+require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.view.class.php');
+$nps_prdctrl = new productView;
+?>
+<?php
+    $_helper = $this->helper('catalog/output');
+    $_product = $this->getProduct();
+
+    if (!function_exists('_npsGetAttrPopDesc')) {
+        function _npsGetAttrPopDesc( $attr_options ){
+            $return['tooltipClass'] = null;
+            $return['tooltipValue'] = null;
+
+            foreach (array('maint','feat','specs','tech') as $region) {
+                if( !empty( $attr_options['nps_attr_option_' . $region . '_description'] ) ){
+                    $return['tooltipClass'] = " tooltips underline-attr";
+                    $return['tooltipValue'] = ' title="' . $attr_options['nps_attr_option_' . $region . '_description'] . '" ';
+                }
+            }
+
+            return $return;
+        }
+    } 
+    $i=1;
+
+    //var_dump( in_array($_data['id'], NPS_CustomAdminFunctions_IndexController::getBlackListedAttributes() );
+?>
+<?php if($_additional = $this->getAdditionalData()): ?>
+    <h2><?php echo $this->__('Additional Information') ?></h2>
+    <table class="data-table" id="product-attribute-specs-table">
+        <col width="25%" />
+        <col />
+        <tbody>
+        <?php foreach ($_additional as $_data): ?>
+            <?php if( !in_array( $_helper->productAttribute($_product, $_data['value'], $_data['code']), array('', null, ' ', 'N/A') ) ):?>
+                <?php 
+                    //set attribute variables
+                    $attributeModel = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', $_data['code']); 
+                    $attr_id = $attributeModel->_data['attribute_id'];
+
+                    //check if attribute is black listed
+                    if( !in_array($attr_id, $nps_prdctrl::getBlackListedAttributes() ) ){
+                        //check for existing option
+                        $sqlread = Mage::getSingleton('core/resource')->getConnection('core_read');
+                        $select = $sqlread->select()->from('nps_attribute_options', array('id', 'attribute_id', 'options', 'parent_show', 'desc_show'))->where('attribute_id=?', $attr_id);
+                        $attr_json = $sqlread->fetchRow($select);
+                        $attr_options = json_decode($attr_json['options'], true);
+
+                        //check if omission values are set
+                        $hide_row = false;
+                        if( 
+                            ( !empty( $attr_options['attr_option_omit_active'] ) )
+                            && ( $attr_options['attr_option_omit_active'] == 1 )
+                            && ( !empty( $attr_options['attr_option_omit_values'] ) )
+                        ){
+                            //create values to omit array
+                            $values_to_omit = explode(',', $attr_options['attr_option_omit_values']);
+                            
+                            //check for values to omit
+                            if( in_array( $_data['value'], $values_to_omit ) ){
+                                $hide_row = true;
+                            }
+                        } 
+                        
+                        if( !$hide_row ){
+                            //unit of measurement
+                            $uom = null;
+                            if( !empty( $attr_options['attr_option_add_uom'] ) ){
+                                $uom = ' ' . $attr_options['attr_option_add_uom'];
+                            }
+                            
+                            echo '<tr>';
+                            echo '  <th class="label' . _npsGetAttrPopDesc($attr_options)['tooltipClass'] . '" ' . _npsGetAttrPopDesc($attr_options)['tooltipValue'] . '><span>' . $this->escapeHtml($this->__($_data['label']))  . '</span></th>';
+                            echo '  <td class="data">' . $_helper->productAttribute($_product, $_data['value'], $_data['code']) . $uom . '</td>';
+                            echo '</tr>';
+                        }
+                    }
+                ?>
+            <?php endif;?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('product-attribute-specs-table')</script>
+<?php endif;?>

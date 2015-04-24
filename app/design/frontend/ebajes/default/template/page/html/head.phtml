@@ -1,0 +1,141 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<?php
+	//NPS SEO Functions
+	if( $this->_isProduct() ){
+		$_product = Mage::registry('current_product');
+		$_productId = $_product->getId();
+		$attrSetName = $this->_getProductAttr($_product);
+		$productType = $_product->getTypeID();
+
+		//check if simple product
+		if( $productType == "simple" ){
+			// validate not container
+			if($attrSetName !== "Container Product"){
+				//check for parent
+				$parentId = $this->_getContainerProductID($_productId);
+				if( $parentId ){
+					//set the url for products to compensate for those with parents
+			        if( $this->_getChildOptionTypeID( $_productId ) ){
+			            $nps_args = array(
+			                'npsf'=> $this->_getChildOptionTypeID( $_productId )[0]['option_type_id'],
+			                'chid'=> $_productId,
+			                );
+			            $_parentprdURL = $this->_getContainerProductURL( $_productId, $nps_args );
+			        } else {
+			            $_parentprdURL = $_product->getProductUrl();
+			        }
+					
+					echo '<link rel="canonical" href="' . $_parentprdURL . '" />';
+				}
+			} else {
+				echo '<link rel="canonical" href="' . $_product->getProductUrl() . '" />';
+			}
+		} else { //product is grouped
+			//check for parent
+			$parentId = $this->_getContainerProductID($_productId);
+			if( $parentId ){
+				//set the url for products to compensate for those with parents
+		        if( $this->_getChildOptionTypeID( $_productId ) ){
+		            $nps_args = array(
+		                'npsf'=> $this->_getChildOptionTypeID( $_productId )[0]['option_type_id'],
+		                'chid'=> $_productId,
+		                );
+		            $_parentprdURL = $this->_getContainerProductURL( $_productId, $nps_args );
+		        } else {
+		            $_parentprdURL = $_product->getProductUrl();
+		        }
+				echo '<link rel="canonical" href="' . $_parentprdURL . '" />';
+			} else {
+				echo '<link rel="canonical" href="' . $_product->getProductUrl() . '" />';
+			}
+		}		
+	}
+
+?>
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link href='//fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+
+
+<script type="text/javascript">
+ /*************** Cart *********************/
+jQuery(function($) { 
+$('#top_cart_sidebar').hide();
+ $('.top-link-cart')
+ .bind('mouseover', showMenu)
+ .bind('click', showMenu)
+ .bind('mouseout', hideMenu);
+ $('#top_cart_sidebar')
+ .bind('mouseover', showMenu)
+ .bind('click', showMenu)
+ .bind('mouseout', hideMenu);
+ var timeout = null;
+ 
+	function hideMenu() {
+		if (timeout)
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+		timeout = null;
+		$('#top_cart_sidebar').slideUp();
+		$('.top-link-cart').removeClass('over');
+		}, 200);
+	}
+
+	function showMenu() {		
+		$('#div_search').css('display','none');	
+		$('#top-links').css('display','none');
+		if (timeout)
+		clearTimeout(timeout);
+		timeout = setTimeout(function() {
+		timeout = null;
+		$('#top_cart_sidebar').slideDown();
+		$('.top-link-cart').addClass('over');
+		}, 200);
+	} 
+}); 
+</script>
+

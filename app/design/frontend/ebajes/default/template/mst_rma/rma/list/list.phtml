@@ -1,0 +1,36 @@
+<?php
+/* @var $this Mirasvit_Rma_Block_Rma_List */
+
+$collection = $this->getRmaCollection();
+?>
+<?php if ($collection->count()): ?>
+    <?php echo $this->getChildHtml('rma.toolbar')?>
+    <table class="data-table" id="rma-table">
+        <thead>
+        <tr class="first last">
+            <th><?php echo $this->__("RMA") ?></th>
+            <th><?php echo $this->__("Date") ?></th>
+            <th><?php echo $this->__("Order") ?></th>
+            <th><?php echo $this->__("Status") ?></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($collection as $rma): ?>
+            <tr>
+                <td><?php echo $rma->getIncrementId() ?>
+                    <?php if ($rma->getLastComment() && !$rma->getLastComment()->getIsRead()): ?><span class="unread"></span><?php endif;?>
+                </td>
+                <td><?php echo Mage::helper('core')->formatDate($rma->getCreatedAt(), 'medium') ?></td>
+                <td>#<?php echo $rma->getOrderIncrementId() ?></td>
+                <td><?php echo $rma->getStatusName() ?></td>
+                <td><a href="<?php echo $rma->getUrl()?>"><?php echo $this->__('View Return') ?></a></td>
+            </tr>
+        <?php endforeach?>
+        </tbody>
+    </table>
+    <?php echo $this->getChildHtml('rma.toolbar')?>
+    <script type="text/javascript">decorateTable('rma-table')</script>
+<?php else: ?>
+    <p><?php echo $this->__("There are no Returns") ?></p>
+<?php endif ?>

@@ -1,0 +1,87 @@
+<?php
+$printComments = false; //you can change this
+
+
+$rma = $this->getRma();
+$order = $rma->getOrder();
+$customFields = $this->getCustomFields();
+?>
+
+<h1><?php echo $this->__('RMA #%s', $rma->getIncrementId()) ?></h1>
+
+<div class="rma-barcode">*<?php echo $rma->getIncrementId() ?>*</div>
+
+<p class="order-date">
+    <?php echo $this->__('Date: %s', $this->formatDate($rma->getCreatedAt(), 'long')) ?><br>
+    <?php echo $this->__('Original order: #%s', $rma->getOrder()->getIncrementId()) ?>
+</p>
+<div class="col3-set">
+    <div class="col-1">
+        <h2><?php echo $this->__('Return Address') ?></h2>
+        <address><?php echo $rma->getReturnAddressHtml() ?></address>
+    </div>
+    <div class="col-1">
+        <h2><?php echo $this->__('Customer Information') ?></h2>
+        <address><?php echo $rma->getShippingAddressHtml() ?></address>
+    </div>
+    <?php if (count($customFields)): ?>
+    <div class="col-1">
+        <h2><?php echo $this->__('Additional Information') ?></h2>
+        <address>
+        <?php foreach ($customFields as $field): ?>
+        <?php if (!$value = Mage::helper('rma/field')->getValue($rma, $field)) continue; ?>
+            <b><?php echo $this->__($field->getName()) ?>:</b> <?php echo $value ?><br>
+        <?php endforeach; ?>
+        </address>
+    </div>
+    <?php endif; ?>
+</div>
+
+<h2><?php echo $this->__('RMA Items') ?></h2>
+<table class="data-table" id="my-orders-table">
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr>
+<!--            <th>--><?php //echo $this->__('Code') ?><!--</th>-->
+            <th width="50%"><?php echo $this->__('Product Name') ?></th>
+            <th><?php echo $this->__('SKU') ?></th>
+            <th class="a-center"  width="10%"><?php echo $this->__('Qty') ?></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <?php echo $this->getChildHtml('order_totals') ?>
+    </tfoot>
+    <tbody>
+    <?php foreach($rma->getItemCollection() as $item):?>
+        <tr class="border">
+<!--            <td class="v-middle"><div class="rma-barcode">*--><?php //echo $item->getProduct()->getId() ?><!--*</div></td>-->
+            <td class="v-middle"><h3 class="product-name"><?php echo Mage::helper('rma')->getOrderItemLabel($item) ?></h3></td>
+            <td class="v-middle"><?php echo $item->getProduct()->getSku() ?></td>
+            <td class="a-center v-middle"><?php echo $item->getQtyRequested() ?></td>
+        </tr>
+    <?php endforeach?>
+    </tbody>
+</table>
+<?php if ($printComments && $this->getCommentCollection()->count()): ?>
+<div class="fieldset rma-history">
+    <h2 class="legend"><?php echo $this->__("RMA History") ?></h2>
+    <?php foreach($this->getCommentCollection() as $comment):?>
+    <div class="fieldset">
+        <h2 class="legend">
+            <?php if ($comment->getCustomerName()):?>
+                <?php echo $comment->getCustomerName() ?> |
+            <?php elseif ($comment->getUser()): ?>
+                <?php echo $comment->getUser()->getName() ?> |
+            <?php endif ?>
+            <?php echo Mage::helper('core')->formatDate($comment->getCreatedAt(), 'medium') ?> <?php echo Mage::helper('core')->formatTime($comment->getCreatedAt(), 'short') ?>
+        </h2>
+        <?php echo $comment->getTextHtml() ?>
+    </div>
+    <?php endforeach ?>
+</div>
+<?php endif; ?>
+
+<script type="text/javascript">decorateTable('my-orders-table', {'tbody' : ['odd', 'even'], 'tbody tr' : ['first', 'last']})</script>
+<script type="text/javascript">//window.print();</script>

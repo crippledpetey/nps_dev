@@ -1,0 +1,55 @@
+<div class="dashboard">
+    <div class="page-title">
+        <h1><?php echo $this->__('My Credit Cards'); ?></h1>
+    </div>
+    <?php $col = 1 ?>
+    <?php $methods = $this->getPaymentMethods() ?>
+    <?php if ($methods != NULL): ?>
+        <div class="box-account box-info">
+            <div class="col2-set">
+                <?php foreach ($methods as $payment): ?>
+                    <div <?php
+                    echo $col % 2 ? 'class="col-1"' : 'class="col-2"';
+                    $col++
+                    ?>>
+                        <div class="box">
+                            <div class="box-title">
+                                <h3><?php echo $payment->MethodName; ?></h3>
+                            </div>
+                            <div class="box-content">
+                                <p><strong><?php echo $this->__('Card Number'); ?></strong>: <?php echo $payment->CardNumber; ?></p>
+                                <p><strong><?php echo $this->__('Expiration'); ?></strong>: <?php echo $payment->CardExpiration; ?></p>
+                                <p>
+                                    <a href="<?php
+                                    echo $this->getUrl('ebizcharge/index/edit', array(
+                                        'cid' => $this->getEbzcCustId(),
+                                        'mid' => $payment->MethodID,
+                                        'method' => urlencode($payment->MethodName)
+                                    )); //$payment->MethodID;
+                                    ?>"><?php echo $this->__('Edit'); ?></a>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <a href="<?php
+                                    echo $this->getUrl('ebizcharge/index/deleteCard', array(
+                                        'cid' => $this->getEbzcCustId(),
+                                        'mid' => $payment->MethodID
+                                    ));
+                                    //$payment->MethodID;
+                                    ?>"
+                                       onclick="return confirm('<?php echo $this->__('Are you sure?'); ?>')"><?php echo $this->__('Delete'); ?></a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php else: ?>
+        <p><?php echo $this->__('No saved payment method found.'); ?></p>
+    <?php endif; ?>
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="button" onclick="window.location.href = '<?php echo $this->escapeUrl($this->getAddCardUrl()); ?>'" title="<?php echo $this->__('Add New Credit Card') ?>" class="button">
+            <span><span><?php echo $this->__('Add New Payment Method') ?></span></span>
+        </button>
+    </div>
+</div>

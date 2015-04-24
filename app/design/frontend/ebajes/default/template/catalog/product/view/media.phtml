@@ -1,0 +1,166 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product media data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ */
+?>
+<?php
+    //set the product object
+    $_product = $this->getProduct();
+    $_product_id = $_product->getId();
+    //set manufacturer var
+    $_manufacturer = $_product->getAttributeText('manufacturer');
+    $_manufacturer = $_manufacturer;
+    $_manufacturer_folder = $this->_convertManuToFolder($_manufacturer);
+    //set default title
+    $default_title = $_manufacturer . ' ' . $_product->getSku('sku') . ' - ' . $_product->getName();
+    //get finishes
+    $_finishes = $this->_getChildrenProducts( $_product_id );
+    //get the images for each finish
+    $finishImages = $this->_getChildGalleryImages( $_product->getId() );
+    //get remaining gallery images
+    $galleryImages = $this->_getImages( $_product->getId() );
+    //combine to make all images
+    $allImages = array_merge($finishImages, $galleryImages);
+    //get selected finish
+    $current_finish = $this->_getSelectedFinish($_product_id);
+    $current_stock = $this->_getStockStatus( $current_finish );
+    if( $current_stock > 0 ){
+        $inStockClass = "";
+        $outStockClass = "hidden";
+    } else {
+        $inStockClass = "hidden";
+        $outStockClass = "";
+    }
+    //default image settings
+    $default_image = array(
+        'id' => '999',
+        'product_id' => $_product_id,
+        'manu' => 'needplumbingsupplies',
+        'file_name' => 'noimagenps.jpeg',
+        'order' => '1',
+        'type' => 'prd_shot',
+        'title' => 'We\'re sorry but we are having trouble locating this image',
+        'in_gallery' => '1',
+        'default_image' => '1',
+    );
+    $image_path = "http://images.needplumbingsupplies.com/catalog/product/" . $_manufacturer_folder . "/";
+    //set default image for when there are no finish options
+    if( !empty( $galleryImages ) ){
+        //check to make sure image exists
+        if( @getimagesize( $image_path . '65x65/' . $galleryImages[0]['file_name'] ) ){
+            $default_image = $galleryImages[0];
+        } else {
+            //put missing image record in file {ID - PRODUCT ID - MANUFACTURER FOLDER - FILENAME}
+            $write_data = $galleryImages[0]['id'] . ' - ' . $galleryImages[0]['product_id'] . ' - ' . $_manufacturer_folder . ' - ' . $galleryImages[0]['file_name'];
+            outputToCustomLog('missing_images.txt',$write_data);
+        }      
+    } 
+    
+    //get the product titles for switching
+    $_titles = $this->_getTitles($_product_id);
+
+    $_helper = $this->helper('catalog/output');
+?>
+<!-- ACTIVE IMAGE CONTAINER -->
+<div id="active-image-holder">
+<?php if( empty($_GET['chid']) ) : ?>
+    <?php  if( $default_image['file_name'] !== 'noimagenps.jpeg' ) : ?>
+    <a class="fancybox" data-option-id="<?php echo $default_image['id'] ?>" id="prd-img-lnk-<?php echo $default_image['id'] ?>" rel="main-gallery" title="<?php echo $default_image['title'] ?>" href="http://images.needplumbingsupplies.com/catalog/product/<?php echo $default_image['manu'] ?>/full/<?php echo $default_image['file_name'] ?>" data-inv-qty="<?php echo $this->_getStockStatus($default_image['id']) ?>">
+    <?php endif; ?>
+        <img id="prd-img-<?php echo $default_image['id'] ?>" src="http://images.needplumbingsupplies.com/catalog/product/<?php echo $default_image['manu'] ?>/300x300/<?php echo $default_image['file_name'] ?>" alt="<?php echo $default_image['title'] ?>">
+    <?php  if( $default_image['file_name'] !== 'noimagenps.jpeg' ) : ?>
+    </a>
+    <?php endif; ?>
+<?php endif; ?>
+</div>
+
+<!-- PENDING IMAGES CONTAINER -->
+<div id="pending-image-holder">
+<?php if( !empty($_GET['chid']) ) : ?>
+    <?php foreach( $finishImages as $key => $fImg ):?>
+    <a class="fancybox" data-option-id="<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" id="prd-img-lnk-<?php echo $_finishes[$fImg['product_id']]['option_type_id'] ?>" rel="main-gallery" title="<?php echo $fImg['title'] ?>" href="http://images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $fImg['file_name'] ?>" data-inv-qty="<?php echo $_finishes[$fImg['product_id']]['qty'] ?>">
+        <img id="prd-img-<?php echo $key ?>" src="http://images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/300x300/<?php echo $fImg['file_name'] ?>" alt="<?php echo $fImg['title'] ?>">
+    </a>
+    <?php endforeach; ?>
+<?php endif; ?>
+</div>
+<!-- LOADING SPINNER -->
+<!--<div id="prd-loading-spinner"><div class="dot1"></div><div class="dot2"></div></div>-->
+
+<!-- AVAILABILITY TEXT -->
+<div id="prd-img-availability">
+<?php foreach( $_finishes as $pid => $prd ): ?>
+    <?php if( $prd['qty'] !== '0' ): ?>
+    <p id="prd-inv-img-noti-<?php echo $prd['option_type_id'] ?>" class="availability in-stock <?php echo ($current_finish == $pid ? null : "hidden"); ?>"><?php echo $this->__('Availability:') ?> <span><span class="prd-avail-numerator"><?php echo $prd['qty'] ?></span> <?php echo $this->__(' In stock') ?></span></p>
+    <?php else: ?>
+    <p id="prd-inv-img-noti-<?php echo $prd['option_type_id'] ?>" class="availability out-of-stock <?php echo ($current_finish == $pid ? null : "hidden"); ?>"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+    <?php endif; ?>
+<?php endforeach; ?>
+</div>
+
+<!-- REVIEW SUMMARY -->
+<?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+<?php echo $this->_generatSocialShareList(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . ltrim($_SERVER['REQUEST_URI'], '/'),array('pinterest'))  ?>
+
+<!-- GALLERY IMAGES -->
+<?php if ( count($allImages) > 0 ): ?>
+    <ul id="product-main-gallery-link">
+<?php foreach( $allImages as $key => $img ):?>
+        <li>
+            <a class="fancybox" rel="main-gallery" title="<?php echo $img['title'] ?>" href="http://images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/full/<?php echo $img['file_name'] ?>">
+                <img src="http://images.needplumbingsupplies.com/catalog/product/<?php echo $_manufacturer_folder ?>/75x75/<?php echo $img['file_name'] ?>" alt="<?php echo $img['title'] ?>">
+            </a>
+        </li>
+<?php endforeach; ?>
+    </ul>
+    <div id="product-gallery-container" class="">
+        <div id="product-gallery-img-title">
+        </div>
+        <div id="product-gallery-img-display">
+            <div class="gallery-scroll left"></div>
+            <div class="gallery-scroll right"></div>
+        </div>
+        <div id="product-gallery-img-controls">
+            <div id="product-gallery-img-thumbs"></div>
+            <div id="product-gallery-img-text">
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<!-- PRODUCT TITLE CONTAINER -->
+<?php if( isset( $_GET['chid'] ) ): ?>
+<div id="prd-finish-titles" class="hidden">
+    <div id="default-page-title"><?php echo $default_title ?></div>
+    <?php foreach( $_titles as $option_id => $prd ): ?>
+        <div id="page-title-<?php echo $option_id ?>"><?php echo $prd['manu'] . ' ' . $prd['sku'] . ' - ' . $prd['title'] ?></div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>

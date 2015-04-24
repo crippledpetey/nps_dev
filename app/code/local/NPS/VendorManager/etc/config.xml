@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <NPS_VendorManager>
+            <version>0.1.0</version>
+        </NPS_VendorManager>
+    </modules>
+    <global>
+        <helpers>
+            <vendormanager>
+                <class>NPS_VendorManager_Helper</class>
+            </vendormanager>
+        </helpers>
+        <events>     
+            <catalog_product_save_after>      
+                <observers>     
+                    <!--<product_Save_Url_Rewrite>     
+                        <type>singleton</type>  
+                        <class>NPS_CustomAdminFunctions_Model_Observer</class>
+                        <method>updateUrlReWrite</method>  
+                    </product_Save_Url_Rewrite>-->
+                </observers>  
+            </catalog_product_save_after>
+        </events>
+        <blocks>
+            <vendormanager>
+                    <class>NPS_VendorManager_Block</class>
+            </vendormanager>
+        </blocks>
+    </global>
+    <admin>
+        <routers>
+            <nps_vendor_manager>
+                <use>admin</use>
+                <args>
+                    <module>NPS_VendorManager</module>
+                    <frontName>VendorManager</frontName>
+                </args>
+            </nps_vendor_manager>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <sales>
+                <children>
+                    <nps_vendor_manager_menu translate="title" module="vendormanager">
+                        <title>NPS Vendor Manager</title> 
+                        <sort_order>30</sort_order>
+                        <action>VendorManager/index/index</action>
+                    </nps_vendor_manager_menu>
+                </children>
+            </sales>
+        </menu>
+        <!--
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <nps_vendor_manager_menu>
+                                    <title>NPS Vendor Manager</title>
+                                    <sort_order>-10</sort_order>
+                                </nps_vendor_manager_menu>
+                            </children>
+                        </sales>
+                    </children>
+                </admin>
+            </resources>
+        </acl>-->
+    </adminhtml>
+</config>

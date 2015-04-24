@@ -1,0 +1,13 @@
+﻿Absolute URL or Relative URL to Store<br/><b>Example</b>:<br/>http://www.example.com/ or /access-denied,Absolute URL or Relative URL to Store<br/><b>Example</b>:<br/>http://www.example.com/ or /access-denied
+Allow,Allow
+Countries,Countries
+Database Path,Database Path
+Database Type,Database Type
+Disallow,Disallow
+Geo Lock,Geo Lock
+GeoIP City,GeoIP City
+GeoIP Country,GeoIP Country
+IP Black List,IP Black List
+Path to GeoIP database file. Can be either relative to Magento root folder or absolute to your file system,Path to GeoIP database file. Can be either relative to Magento root folder or absolute to your file system
+Redirect Blocked Visitor to URL,Redirect Blocked Visitor to URL
+Rull Type,Rull Type

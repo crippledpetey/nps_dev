@@ -1,0 +1,55 @@
+<!--@subject {{var store.getFrontendName()}}: Return #{{var rma.increment_id}} @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"var logo_alt":"Email Logo Image Alt",
+"htmlescape var=$customer.name":"Customer Name",
+"var customer.email":"Customer Email",
+"var rma.increment_id":"Return Id",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var comment":"Order Comment",
+"var store.getFrontendName()":"Store Name"}
+@-->
+<!--@styles
+body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
+@-->
+<!--@styles
+body,td { color:#2f2f2f; }
+@-->
+{{var hidden_separator}}
+<div style="font:13px/1.45em Verdana, Arial, Helvetica, sans-serif;">
+    <table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:13px/1.45em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+        <tr>
+            <td align="center" valign="top">
+                <!-- [ header starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+                            <a href="{{store url=""}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" style="margin-bottom:10px;" border="0"/></a>
+                        </td>
+                    </tr>
+                </table>
+                <!-- [ middle starts here] -->
+                <table cellspacing="0" cellpadding="0" border="0" width="650">
+                    <tr>
+                        <td valign="top">
+RMA: #{{var rma.increment_id}}<br>
+Customer Name: {{htmlescape var=$customer.name}}<br>
+Email address: {{var customer.email}}<br>
+Store: {{var store.getFrontendName()}}<br>
+Staff (Owner): {{var rma.user_name}}<br>
+Status: {{var rma.status}}<br>
+Created: {{var rma.getCreatedAtFormated('long')}}<br>
+Updated: {{var rma.getUpdatedAtFormated('long')}}<br>
+<br>
+{{var comment}}
+<br><br>
+{{block type="rma/rma_view_items" rma=$rma }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+{{var hidden_code}}

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <NPS_Media_Manager>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Catalog />
+                <Mage_Adminhtml />
+            </depends>
+        </NPS_Media_Manager>
+    </modules>
+</config>

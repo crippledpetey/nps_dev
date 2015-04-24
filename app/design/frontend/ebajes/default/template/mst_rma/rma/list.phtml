@@ -1,0 +1,14 @@
+<?php
+/* @var $this Mirasvit_Rma_Block_Rma_List */
+?>
+<div>
+    <div class="page-title">
+        <h1><?php echo $this->__("My Returns"); ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <button onclick="window.location.href='<?php echo Mage::getUrl('rma/rma/new')?>';" class="button pull-right"><span><span><?php echo $this->__('Request New Return')?></span></span></button>
+    <br><br>
+    <?php
+    echo $this->getChildHtml('rma.list.list');
+    ?>
+</div>

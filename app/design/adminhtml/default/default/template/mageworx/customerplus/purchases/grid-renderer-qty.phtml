@@ -1,0 +1,55 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@mageworx.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ * or send an email to sales@mageworx.com
+ *
+ * @category   design_default
+ * @package    MageWorx_CustomerPlus
+ * @copyright  Copyright (c) 2009 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Customer extension
+ *
+ * @category   design_default
+ * @package    MageWorx_CustomerPlus
+ * @author     MageWorx Dev Team <dev@mageworx.com>
+ */
+?>
+<?php if ($_item = $this->getItem()): ?>
+	<div><?php echo Mage::helper('mageworx_customerplus')->__('Ordered') ?> <strong><?php echo $_item->getQtyOrdered()*1 ?></strong></div>
+
+	<?php if ((float) $_item->getQtyInvoiced()): ?>
+    	<div><?php echo Mage::helper('mageworx_customerplus')->__('Invoiced') ?> <strong><?php echo $_item->getQtyInvoiced()*1 ?></strong></div>
+    <?php endif; ?>
+
+    <?php if ((float) $_item->getQtyShipped()): ?>
+    	<div><?php echo Mage::helper('mageworx_customerplus')->__('Shipped') ?> <strong><?php echo $_item->getQtyShipped()*1 ?></strong></div>
+    <?php endif; ?>
+
+    <?php if ((float) $_item->getQtyRefunded()): ?>
+	    <div><?php echo Mage::helper('mageworx_customerplus')->__('Refunded') ?> <strong><?php echo $_item->getQtyRefunded()*1 ?></strong></div>
+    <?php endif; ?>
+
+    <?php if ((float) $_item->getQtyCanceled()): ?>
+    	<div><?php echo Mage::helper('mageworx_customerplus')->__('Canceled') ?> <strong><?php echo $_item->getQtyCanceled()*1 ?></strong></div>
+    <?php endif; ?>
+<?php endif; ?>

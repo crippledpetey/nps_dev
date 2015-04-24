@@ -1,0 +1,78 @@
+"Hide ""Out of stock"" Options","「在庫切れ」オプションを隠す"
+"Select Predefined Options and Save the product to apply options or <a href=""%s"" target=""_blank"">click here to define</a>","オプションを適用するには定義済オプションを選択し商品を保存するか、<a href=""%s"" target=""_blank"">ここをクリックして定義</a>して下さい"
+Action,アクション
+Add Options,オプション追加
+Add Options Template,オプションテンプレート追加
+New Template,新規テンプレート
+Advanced Product Options,拡張商品オプション
+All Store Views,全ストアビュー
+Attrib. Set Name,属性セット名
+Bundle with dynamic pricing cannot include custom defined options. Options will not be saved,動的価格のバンドルはカスタム定義オプションに含める事が出来ません。オプションは保存されません
+Change Image,画像を変更
+Children,子
+Choose Store View,ストアビュー選択
+Custom Options,カスタムオプション
+Customer Groups,カスタマーグループ
+Default Option Qty Field Label,標準オプション数量フィールドラベル
+Default Text,既定テキスト
+Delete,削除
+Description,説明
+Display Qty for Options on the Front-end,フロントエンドでオプションの数量を表示する
+Div CSS Class,Div CSSクラス
+Edit Template \'%s\',テンプレート「%s」を編集
+Enable Custom Options for Customer Groups,お客様グループのカスタムオプションを有効にする
+Enable Custom Options Inventory,カスタムオプション在庫を有効にする
+Enable Dependent Custom Options,依存カスタムオプションを有効にする
+Enable Qnty Field for Custom Options on the Front-end,フロントエンドでカスタムオプションの数量フィールドを有効にする
+Enable Specifying CSS Class in Option Div,オプションDIV中のCSSクラス指定を有効にする
+Enable Weight,重量を有効にする
+Enable Absolute Weight,固定重量を有効にする
+Enable Absolute Price,固定価格を有効にする
+Enable Pre-populating Text for Input Options,入力オプションでのテキスト事前取り込みを有効にする
+Id,ID
+If you delete this item(s) all the options inside will be deleted as well?,この商品を削除すると、内部のオプションも全て同時に削除されますが？
+Images Above Options,画像をオプションの上に表示
+Is Dependent,依存である
+Is Disabled,無効である
+Hide Dependent Custom Options,依存カスタムオプションを隠す
+Manage Options Templates,オプションテンプレート管理
+Manage Templates,テンプレート管理
+Name,名前
+None,なし
+New Options Template,新規オプションテンプレート
+Options do not exist,オプションが存在しません
+Options Information,オプション情報
+Options were successfully deleted,オプションは正常に削除されました
+Options were successfully saved,オプションは正常に保存されました
+Options,オプション
+Please select Option(s),オプションを選択して下さい
+Predefined Option:,定義済オプション：
+Predefined Options,定義済オプション
+Price,価格
+Product Options,商品オプション
+Products,商品
+Product prices reindexed (100%)...,商品価格が再インデックスされました（100％）...
+Qnty Input,数量入力
+Qty,数量
+Save And Continue Edit,保存して編集を続ける
+Save,保存
+Select All,全て選択
+Select Children,子を選択
+Select Visible,表示中を選択
+SKU,SKU
+Show Qty per Option in Cart,カート内でオプションごとの数量を表示
+"Some options are not available for your customer group. Please, edit product ""%s""","お客様グループにより、いくつかのオプションを選択できません。商品「%s」を編集して下さい。"
+Some options are not available for your customer group,お客様グループにより、いくつかのオプションを選択できません。
+Status,ステータス
+Starting applying options to products...,商品へのオプション適用を開始中...
+There are no Options,オプションがありません
+Title,タイトル
+Total of %d record(s) were successfully deleted,全%dレコードが正常に削除されました
+Total of %d record(s) were successfully updated,全%dレコードが正常に更新されました
+Total %1$s, processed %2$s products (%3$s%%)...,全%1$s中、%2$s商品を処理しました（%3$s%%）...
+Type,タイプ
+Unable to find Options to save,保存するオプションが見つかりません
+Unselect All,全て選択解除
+Unselect Visible,表示中を選択解除
+Unassigned options removed (100%)...,非割当オプションが取り除かれました（100％）...
+Visibility,可視性

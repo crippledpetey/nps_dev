@@ -1,0 +1,166 @@
+/* 
+* @Author: Brandon
+* @Date:   2015-04-04 18:10:22
+* @Last Modified by:   Brandon
+* @Last Modified time: 2015-04-04 18:15:57
+*/
+
+.nps-hipchat-index-index label {
+	display: inline-block;
+	margin-right: 2%;
+	width: 45%;
+	min-width: 150px;
+	font-weight: bold;
+	background: #efefef;
+	color: #333;
+	padding: 4px 5px 6px 10px;
+	display: table-cell;
+	vertical-align: top;
+	float: left;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.nps-hipchat-index-index .half-block input[type="text"],
+.nps-hipchat-index-index .half-block input[type="number"],
+.nps-hipchat-index-index .half-block input[type="date"],
+.nps-hipchat-index-index .half-block input[type="email"],
+.nps-hipchat-index-index .half-block select {
+	width: 45%;
+}
+.nps-hipchat-index-index .page-head-note{
+	font-size:11px;
+	color: #999;
+	padding-right: 20px;
+}
+.nps-hipchat-index-index h1 {
+	border-bottom: 1px dotted #d9d9d9;
+}
+.nps-hipchat-index-index .half-block,
+.nps-hipchat-index-index .one-third  {
+	display: block;
+	width: 49%;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	float: left;
+	margin-bottom: 15px;
+  	padding: 15px;
+}
+.nps-hipchat-index-index .half-block {
+ 	width: 49%;
+ 	margin-right: 25px;
+}
+.nps-hipchat-index-index .half-block.last {
+	margin-right: 0;
+}
+.nps-hipchat-index-index .one-third {
+	width: 32%;
+	border-right: 1px dashed #dedede;
+	padding-top: 0;
+}
+.nps-hipchat-index-index .one-third > label {
+	margin-bottom: 7px;
+}
+.nps-hipchat-index-index .one-third > label,
+.nps-hipchat-index-index .one-third > input,
+.nps-hipchat-index-index .one-third > select,
+.nps-hipchat-index-index .one-third > textarea {
+	width: 99% !important;
+}
+.nps-hipchat-index-index .half-block.no-border,
+.nps-hipchat-index-index .one-third.no-border {
+	border: none !important;
+}
+.nps-hipchat-index-index .clearer {
+	display: block;
+	content:" ";
+	width: 100%;
+	white-space: normal;
+	clear: both;
+}
+.nps-hipchat-index-index .clearer.small,
+.nps-hipchat-index-index .clearer.medium,
+.nps-hipchat-index-index .clearer.big {
+	border-top: 1px dotted #ccc;
+}
+.nps-hipchat-index-index .clearer.small {
+	height: 10px;
+}
+.nps-hipchat-index-index .clearer.medium {
+	height: 30px;
+}
+.nps-hipchat-index-index .clearer.big {
+	height: 50px;	
+}
+.nps-hipchat-index-index .full-width {
+	width: 100%;
+	margin-bottom: 15px;
+}
+.nps-hipchat-index-index input[type="submit"]{
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ed6502 #a04300 #a04300 #ed6502;
+	padding: 1px 7px 2px 7px;
+	background: #ffac47 url(images/btn_bg.gif) repeat-x 0 100%;
+	color: #fff;
+	font: bold 12px arial, helvetica, sans-serif;
+	cursor: pointer;
+	text-align: center !important;
+	white-space: nowrap;
+}
+#nps-hipchat-manager-nav  a {
+	text-decoration: none !important;
+}
+#nps-hipchat-manager-nav  li {
+	height: 25px;
+	padding: 12px 5px 4px 10px;
+
+}
+#nps-hipchat-manager-nav  li, #nps-hipchat-manager-nav  li a {
+	transition: all .5s;
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+}
+#nps-hipchat-manager-nav  li.active{
+	background: rgba(254, 194, 133,.6);
+}
+#nps-hipchat-manager-nav  li:hover{
+	background: rgba(254, 194, 133,1);
+}
+#nps-hipchat-manager-nav  li:hover, #nps-hipchat-manager-nav  li.active {
+	color: #fff;
+	text-decoration: none !important;
+}
+#nps-hipchat-manager-nav  li.active {
+	text-shadow: 1px 1px 3px rgba(0,0,0,.3);
+}
+#nps-hipchat-manager-nav  li.separator {
+	height: 1px;
+	display: block;
+	width: 100%;
+	background: rgba(0,0,0,.1);
+	padding: 0;
+	margin: 10px 0 20px 0;
+}
+.nps-hipchat-index-index .area-toggle{ cursor: pointer; }
+.nps-hipchat-index-index .nps-attr-desc-control-content {
+	min-height: 250px;
+    display: none;
+    border: 1px solid #d9d9d9;
+    padding: 10px 15px 25px 15px;
+    
+    margin-bottom: 20px;
+}
+.nps-hipchat-index-index textarea {
+	min-height: 200px;
+}
+
+
+
+.nps-hipchat-index-index .noborder {
+	border: none !important;
+	border-top: none !important;
+	border-right: none !important;
+	border-bottom: none !important;
+	border-left: none !important;
+}

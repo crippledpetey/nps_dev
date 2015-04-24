@@ -1,0 +1,62 @@
+<div class="page-title">
+    <h1><?php echo $this->__('Edit Credit Card') ?></h1>
+</div>
+<form method="post" action="<?php echo $this->getUrl('ebizcharge/index/editCardPost/'); ?>" id="form-validate">
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->escapeHtml($this->getMethodName()); ?></h2>
+        <input type="hidden" name="cid" value="<?php echo $this->getEbzcCustId(); ?>" />
+        <input type="hidden" name="mid" value="<?php echo $this->getEbzcMethodId(); ?>" />
+        <ul class="form-list">
+            <li>
+                <label class="required"><em>*</em><?php echo $this->__('Expiration Date'); ?></label>
+                <div class="input-box">
+                    <select name="cc_exp_month" style="width: 100px;">
+                        <option value="01"><?php echo $this->__('January'); ?></option>
+                        <option value="02"><?php echo $this->__('February'); ?></option>
+                        <option value="03"><?php echo $this->__('March'); ?></option>
+                        <option value="04"><?php echo $this->__('April'); ?></option>
+                        <option value="05"><?php echo $this->__('May'); ?></option>
+                        <option value="06"><?php echo $this->__('June'); ?></option>
+                        <option value="07"><?php echo $this->__('July'); ?></option>
+                        <option value="08"><?php echo $this->__('August'); ?></option>
+                        <option value="09"><?php echo $this->__('September'); ?></option>
+                        <option value="10"><?php echo $this->__('October'); ?></option>
+                        <option value="11"><?php echo $this->__('November'); ?></option>
+                        <option value="12"><?php echo $this->__('December'); ?></option>
+                    </select>
+                    <select name="cc_exp_year" style="width: 100px;">
+                        <?php $years = range(date('Y', time()), date('Y', time()) + 10); ?>
+                        <?php foreach ($years as $year) : ?>
+                            <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label for="avs_street" class="required"><em>*</em><?php echo $this->__('Avs Street'); ?></label>
+                <div class="input-box">
+                    <input type="text" name="avs_street" class="input-text required-entry" id="avs_street" />
+                </div>
+            </li>
+            <li>
+                <label for="avs_zip" class="required"><em>*</em><?php echo $this->__('Avs Zip'); ?></label>
+                <div class="input-box">
+                    <input type="text" name="avs_zip" class="input-text required-entry" id="avs_zip" />
+                </div>
+            </li>
+            <li>
+                <label><input type="checkbox" name="default" value="1"/> <?php echo $this->__('Make this my default Payment Method'); ?></label>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <p class="back-link"><a href="<?php echo $this->getUrl('ebizcharge/index/') ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="submit" class="button" title="<?php echo $this->__('Update Payment Method') ?>"><span><span><?php echo $this->__('Update Payment Method') ?></span></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('form-validate', true);
+//]]>
+</script>

@@ -1,0 +1,154 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+    //get the existing policy page
+    $resource = Mage::getSingleton('core/resource');
+    $readConnection = $resource->getConnection('core_read');
+    $writeConnection = $resource->getConnection('core_write');
+    $logo_table = $resource->getTableName('manufacturer');
+    $name_table = $resource->getTableName('eav_attribute_option_value');
+
+    $all_query = "SELECT * FROM " . $logo_table . " AS m INNER JOIN " . $name_table . " as v on m.menufecturer_name = v.option_id where `status` = 1 ORDER BY `value`";
+    $feat_query = "SELECT * FROM " . $logo_table . " AS m INNER JOIN " . $name_table . " as v on m.menufecturer_name = v.option_id where `status` = 1 AND `legend` like '%is_featured%' ORDER BY `value`";
+    $feat_results = $readConnection->fetchAll($feat_query);
+    $all_results = $readConnection->fetchAll($all_query);
+
+    //compile into array
+    $manu_logos = array();
+    foreach( $feat_results as $manu ){
+        $manu_logos[] = array( 
+        	'src'=>'/media/Manufacturer/' . $manu['filename'], 
+        	'name'=>$manu['value'], 
+        	);
+    }
+
+    $all_manus = array();
+    $letters = array('#'=>array('link'=>null,'count'=>0),'a'=>array('link'=>null,'count'=>0),'b'=>array('link'=>null,'count'=>0),'c'=>array('link'=>null,'count'=>0),'d'=>array('link'=>null,'count'=>0),'e'=>array('link'=>null,'count'=>0),'f'=>array('link'=>null,'count'=>0),'g'=>array('link'=>null,'count'=>0),'h'=>array('link'=>null,'count'=>0),'i'=>array('link'=>null,'count'=>0),'j'=>array('link'=>null,'count'=>0),'k'=>array('link'=>null,'count'=>0),'l'=>array('link'=>null,'count'=>0),'m'=>array('link'=>null,'count'=>0),'n'=>array('link'=>null,'count'=>0),'o'=>array('link'=>null,'count'=>0),'p'=>array('link'=>null,'count'=>0),'q'=>array('link'=>null,'count'=>0),'r'=>array('link'=>null,'count'=>0),'s'=>array('link'=>null,'count'=>0),'t'=>array('link'=>null,'count'=>0),'u'=>array('link'=>null,'count'=>0),'v'=>array('link'=>null,'count'=>0),'w'=>array('link'=>null,'count'=>0),'x'=>array('link'=>null,'count'=>0),'y'=>array('link'=>null,'count'=>0),'z'=>array('link'=>null,'count'=>0));
+
+    //check letters array
+    foreach( $all_results as $manu ){
+    	//set starting letter
+    	$letter = substr( $manu['value'], 0, 1);
+
+    	//check if letter is set
+    	if( empty( $letters[ $letter ]['link'] ) ){
+    		if( $letter == '#' ){
+    			$link_value = '#blead-num';
+    		} else {
+    			$link_value = '#blead-' . strtolower( $letter );
+    		}
+    		$letters[ strtolower( $letter ) ]['link'] = $link_value;     		
+    	} 
+
+    	//increase the counter
+    	$letters[ strtolower( $letter ) ]['count']++;
+
+        $all_manus[ strtolower( $letter ) ][] = array( 
+        	'src'=>'/media/Manufacturer/' . $manu['filename'], 
+        	'name'=>$manu['value'], 
+        	);
+    }
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="main-container">
+            <div class="main">
+                <?php echo $this->getChildHtml('breadcrumbs') ?>
+                <div class="col-wrapper">                	
+					<div class="col-main all-brand-main">
+						<h1>Shop By Brand</h1>
+						<div id="brands-container-primary">
+							<div id="feat-brands-outer">
+								<div id="feat-brands-title"><span><h2>Featured Brands<h2></span></div>
+								<?php if( !empty( $manu_logos ) ){
+									echo '<div id="feat-brands-inner"><ul>';
+									
+									foreach( $manu_logos as $logo ){
+										echo '<li><a title="Shop by brand - ' . $logo['name'] . '" href="/brands/' . strtolower( $logo['name'] ) . '.html"><img id="brand-logo-' . strtolower( $logo['name'] ) . '" src="' . $logo['src'] . '" alt="' . $logo['name'] . ' Logo" /> </a></li>';
+									}
+									
+									echo '</ul></div>';
+								}?>
+							</div>
+							<div id="brands-list">
+								<h2>Shop All Our Brands</h2>
+								<div id="brand-toc">
+									<?php 
+										echo '<ul>';
+										
+										foreach( $letters as $key=>$l ){
+											$linking = strtoupper( $key );
+											if( $l['count'] ){
+												$linking = '<a class="smooth-scroller" title="Quick view brands starting with ' . $key . '" href="' . $l['link'] . '">' . strtoupper( $key ) . '</a>';
+											} 
+											echo '<li>' . $linking . '</li>';
+										}										
+										echo '</ul>';
+									?>
+								</div>
+								<?php foreach( $letters as $key=>$l ){ if( $l['count'] ){ ?>
+										
+								<div id="<?php echo str_replace('#',null, $l['link']); ?>" class="brand-name-listing">
+									<h3><?php echo strtoupper( $key ); ?></h3>
+									<ul>
+										<?php foreach( $all_manus[ $key ] as $let=>$manu ){ ?>
+											<li><a title="<?php echo $manu['name'] ?>" href="/brands/<?php echo strtolower( $manu['name'] ) ?>.html"><?php echo $manu['name'] ?></a></li>
+										<?php } ?>
+									</ul>
+								</div>
+								<?php  } } ?>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>
+<script>
+    jQuery(document).ready(function($){
+        
+    }); 
+</script>

@@ -1,0 +1,60 @@
+<?php
+$slides = $this->getSlides();
+$helper = $this->helper('slideshow');
+$storeId = Mage::app()->getStore()->getId();
+?>
+<?php if($slides->count()):?>
+<div class="container">
+	<div class="wt-rotator">	
+		<div class="screen">
+            <noscript>
+            	<!-- placeholder 1st image when javascript is off -->
+                <img src="images/madness_arch2.jpg"/>
+            </noscript>
+		</div>	
+		<div class="c-panel">
+      		<div class="thumbnails">
+				<ul>
+					<?php foreach($slides as $slide):?>
+						<li>
+							<a href="<?php echo $helper->getResizeImage($slide,false,Mage::getStoreConfig('slideshow/general/width',$storeId),Mage::getStoreConfig('slideshow/general/height',$storeId));?>"><img src="<?php echo Mage::helper('slideshow')->getResizeImage($slide,false,45,45);?>"/></a>
+							<?php if($slide->getUrl()):?>
+								<a href="<?php echo $slide->getUrl();?>" target="_blank"></a>
+							<?php endif;?>
+							<div class="text">
+								<?php echo $slide->getText();?>
+							</div>
+						</li>
+					<?php endforeach;?>	
+				</ul>
+			</div>
+		</div>	
+	</div>
+</div>	
+<script type="text/javascript">
+	jQuery(document).ready(	
+		function() {
+			jQuery(".container").wtRotator({
+				width:<?php echo Mage::getStoreConfig('slideshow/general/width',$storeId)?>,
+				height:<?php echo Mage::getStoreConfig('slideshow/general/height',$storeId)?>,
+				button_width:<?php echo Mage::getStoreConfig('slideshow/general/button_width',$storeId)?>,
+				button_height:<?php echo Mage::getStoreConfig('slideshow/general/button_height',$storeId)?>,
+				button_margin:<?php echo Mage::getStoreConfig('slideshow/general/button_margin',$storeId)?>,
+				auto_start:<?php echo Mage::getStoreConfig('slideshow/general/auto_start',$storeId)?>,
+				delay:<?php echo Mage::getStoreConfig('slideshow/general/delay',$storeId)?>,
+				transition:"<?php echo Mage::getStoreConfig('slideshow/general/transition',$storeId)?>",
+				transition_speed:<?php echo Mage::getStoreConfig('slideshow/general/transition_speed',$storeId)?>,
+				tooltip_type:"<?php echo Mage::getStoreConfig('slideshow/general/tooltip_type',$storeId)?>",
+				block_size:<?php echo Mage::getStoreConfig('slideshow/general/block_size',$storeId)?>,
+				vert_size:<?php echo Mage::getStoreConfig('slideshow/general/vert_size',$storeId)?>,
+				horz_size:<?php echo Mage::getStoreConfig('slideshow/general/horz_size',$storeId)?>,
+				block_delay:<?php echo Mage::getStoreConfig('slideshow/general/block_delay',$storeId)?>,
+				vstripe_delay:<?php echo Mage::getStoreConfig('slideshow/general/vstripe_delay',$storeId)?>,
+				hstripe_delay:<?php echo Mage::getStoreConfig('slideshow/general/hstripe_delay',$storeId)?>,
+				text_effect:"<?php echo Mage::getStoreConfig('slideshow/general/text_effect',$storeId)?>"	
+			});
+		}
+	);
+		
+</script>    
+<?php endif;?>

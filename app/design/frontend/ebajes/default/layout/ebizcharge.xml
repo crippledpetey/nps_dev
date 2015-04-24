@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="ebizcharge">
+                <name>ebizcharge</name>
+                <path>ebizcharge/index/</path>
+                <label>Manage My Payment Methods</label>
+            </action>
+        </reference>
+    </customer_account>
+
+    <ebizcharge_index_index>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="ebizcharge/customer_account_cards" name="ebizcharge_cards" template="ebizcharge/customer/account/cards.phtml"></block>
+        </reference>
+    </ebizcharge_index_index>
+
+    <ebizcharge_index_addcard>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="customer/address_edit" name="ebizcharge_add_card" template="ebizcharge/customer/addCard.phtml"/>
+        </reference>
+    </ebizcharge_index_addcard>
+
+    <ebizcharge_index_edit>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="ebizcharge/customer_account_cards" name="ebizcharge_edit_card" template="ebizcharge/customer/editCard.phtml" />
+        </reference>
+    </ebizcharge_index_edit>
+</layout>

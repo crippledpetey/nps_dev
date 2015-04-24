@@ -1,0 +1,208 @@
+<?php
+/* @var $this Mirasvit_Rma_Block_Rma_View */
+
+$rma = $this->getRma();
+?>
+<script>
+    function rmaShowConfirmationForm()
+    {
+        $('rma-confirmation-form').show();
+        $('rma-confirmation-form-overlay').show();
+    }
+    function rmaHideConfirmationForm()
+    {
+        $('rma-confirmation-form').hide();
+        $('rma-confirmation-form-overlay').hide();
+    }
+</script>
+<div class="page-title">
+    <h1><?php echo $this->__('RMA') ?> #<?php echo $rma->getIncrementId()?> - <?php echo $rma->getStatus()->getName() ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php if ($rma->getIsShowShippingBlock()): ?>
+    <button onclick="var win = window.open('<?php echo $this->getPrintUrl()?>', '_blank');win.focus();" class="button pull-right"><span><span><?php echo $this->__('Print RMA Packing Slip')?></span></span></button>
+    &nbsp;
+    &nbsp;
+    <?php if ($rma->getReturnLabel()): ?>
+    <button onclick="var win = window.open('<?php echo $this->getPrintLabelUrl()?>', '_blank');win.focus();" class="button pull-right"><span><span><?php echo $this->__('Print RMA Shipping Label')?></span></span></button>
+    &nbsp;
+    &nbsp;
+    <?php endif ?>
+    <?php if ($this->getIsRequireShippingConfirmation()): ?>
+        <button onclick="rmaShowConfirmationForm()" class="button pull-right"><span><span><?php echo $this->__('Confirm Shipping')?></span></span></button>
+
+    <div id="rma-confirmation-form" class="rma-confirmation-form" style="display:none">
+        <div class="close" onclick="rmaHideConfirmationForm();">×</div>
+        <form action="<?php echo $this->getConfirmationUrl()?>" method="POST" enctype="multipart/form-data" id="rma-confirmation-form-validate" >
+            <h2 id="shipping-confirmation"><?php echo $this->getShippingConfirmation() ?></h2>
+            <ul class="form-list">
+                <?php foreach ($this->getShippingConfirmationFields() as $field): ?>
+                <li class="control">
+                    <label for="<?php echo $field->getCode()?>" <?php if($field->getIsRequiredCustomer()): ?>class="required"<?php endif ?>>
+                      <?php echo $this->__($field->getName()) ?>
+                      <?php if($field->getIsRequiredCustomer()): ?>
+                      <em>*</em>
+                      <?php endif ?>
+                    </label>
+                    <?php echo Mage::helper('rma/field')->getInputHtml($field)?>
+                    <p id="user-description"><?php echo $field->getDescription() ?></p>
+                </li>
+                <?php endforeach; ?>
+                <li class="control buttons">
+                    <button type="submit" title="<?php echo $this->__("Confirm Shipping") ?>" class="button"><span><span><?php echo $this->__("Confirm Shipping") ?></span></span></button>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var dataForm = new VarienForm('rma-confirmation-form', false);
+    //]]>
+    </script>
+    <br><br>
+    <?php endif; ?>
+<?php endif; ?>
+<div class="fieldset">
+    <h2 class="legend" id="request-information"><?php echo $this->__("Request Information") ?></h2>
+    <table width='100%'>
+        <tbody>
+            <tr>
+                <td colspan="2">
+                    <b><?php echo $this->__("RMA") ?>:</b> <span id="rma-user-adress">#<?php echo $rma->getIncrementId() ?></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b><?php echo $this->__("Order") ?>:</b>
+                    <span id="rma-user-adress"><?php if ($rma->getCustomerId()): ?>
+                        <?php echo Mage::helper('rma')->getOrderLabel($rma->getOrderId(), $this->getOrderUrl($rma->getOrderId()))?>
+                    <?php else: ?>
+                        <?php echo Mage::helper('rma')->getOrderLabel($rma->getOrderId())?>
+                    <?php endif?>
+                     <?php echo $rma->getIsGift()? $this->__('(This was a gift)'):'' ?></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b><?php echo $this->__("Date Requested") ?>:</b> <span id="rma-user-adress"><?php echo Mage::helper('core')->formatDate($rma->getCreatedAt(), 'medium') ?></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b><?php echo $this->__("Status") ?>:</b> <span id="rma-user-adress"><?php echo $this->__($rma->getStatus()->getName()) ?></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b><?php echo $this->__("Contact Information") ?>:</b><br> <span id="rma-user-adress"><?php echo $rma->getShippingAddressHtml() ?></span>
+                </td>
+            </tr>
+        <?php foreach ($this->getCustomFields() as $field): ?>
+        <?php if (!$value = Mage::helper('rma/field')->getValue($rma, $field)) continue; ?>
+            <tr>
+                <td>
+                    <b><?php echo $this->__($field->getName()) ?>:</b> <span id="rma-user-adress"><?php echo $value ?></span>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<div class="fieldset">
+    <h2 class="legend" id="items-rma-request-for"><?php echo $this->__("Items RMA Requested for") ?></h2>
+ <table class="data-table" id="rma-table">
+        <thead>
+            <tr class="first last">
+                <th><?php echo $this->__("Product Name") ?></th>
+                <th><?php echo $this->__("SKU") ?></th>
+                <th><?php echo $this->__("Qty") ?></th>
+                <th><?php echo $this->__("Reason") ?></th>
+                <th><?php echo $this->__("Condition") ?></th>
+                <th><?php echo $this->__("Resolution") ?></th>
+            </tr>
+        </thead>
+        <tbody>
+<?php foreach($rma->getItemCollection() as $item):?>
+            <tr>
+                <td><?php echo Mage::helper('rma')->getOrderItemLabel($item) ?></td>
+                <td><?php echo $item->getProduct()->getSku() ?></td>
+                <td><?php echo $item->getQtyRequested() ?></td>
+                <td><?php echo $this->__($item->getReasonName()) ?></td>
+                <td><?php echo $this->__($item->getConditionName()) ?></td>
+                <td><?php echo $this->__($item->getResolutionName()) ?></td>
+            </tr>
+<?php endforeach?>
+        </tbody>
+    </table>
+</div>
+<form action="<?php echo $this->getCommentPostUrl()?>" method="POST" enctype="multipart/form-data"    id="rma-form-validate" >
+<input name='id' type='hidden' value='<?php echo $this->getId() ?>'>
+<div class='fieldset'>
+    <h2 class="legend" id="add-comment"><?php echo $this->__("Add Comment") ?></h2>
+    <ul class="form-list">
+        <li class="wide">
+            <div class="input-box">
+                <textarea name='comment' id='comment' class="input-text"></textarea>
+            </div>
+        </li>
+        <li class="wide">
+            <label for="attachment"><?php echo $this->__("Attach files") ?>
+            </label>
+            <div class="input-box">
+                <?php echo Mage::helper('mstcore/attachment')->getFileInputHtml(Mage::helper('rma/attachment')->getAllowedExtensions()) ?>
+            </div>
+            <?php echo Mage::helper('rma/attachment')->getAttachmentLimits() ?>
+        </li>
+        <?php foreach ($this->getCustomFields(true) as $field): ?>
+        <li class="control">
+            <label id="customer-field" for="<?php echo $field->getCode()?>" <?php echo $field->getIsRequiredCustomer()?'class="required"><em>*</em>':'>'?><?php echo $this->__($field->getName()) ?></label>
+            <?php echo Mage::helper('rma/field')->getInputHtml($field)?>
+            <p id="user-description"><?php echo $field->getDescription() ?></p>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <button type="submit" title="<?php echo $this->__("Submit") ?>" class="button"  onclick="dataFormSubmit(this)"><span><span><?php echo $this->__("Submit") ?></span></span></button>
+</div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('rma-form-validate', false);
+    function dataFormSubmit(button){
+        if(dataForm.validator &&  dataForm.validator.validate()){
+            Form.Element.disable(button);
+            dataForm.submit();
+        }
+    }
+//]]>
+</script>
+
+<?php if ($this->getCommentCollection()->count()): ?>
+<div class="fieldset rma-history">
+    <h2 class="legend" id="rma-history"><?php echo $this->__("RMA History") ?></h2>
+    <?php foreach($this->getCommentCollection() as $comment):?>
+    <div class="fieldset">
+        <h2 class="legend" id="rma-history-name">
+            <?php if ($comment->getCustomerName()):?>
+                <?php echo $comment->getCustomerName() ?> |
+            <?php elseif ($comment->getUser()): ?>
+                <?php echo $comment->getUser()->getName() ?> |
+            <?php endif ?>
+            <?php echo Mage::helper('core')->formatDate($comment->getCreatedAt(), 'medium') ?> <?php echo Mage::helper('core')->formatTime($comment->getCreatedAt(), 'short') ?>
+        </h2>
+
+        <?php echo $comment->getTextHtml() ?>
+        <?php if($attachments = $comment->getAttachments()): ?>
+            <?php foreach($attachments as $attachment): ?>
+                <br><a href="<?php echo $attachment->getUrl()?>"><?php echo $attachment->getName() ?></a>
+            <?php endforeach;?>
+        <?php endif ?>
+    </div>
+    <?php endforeach ?>
+</div>
+<?php endif; ?>
+<?php if ($rma->getCustomerId()): ?>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->getListUrl()?>"><small>&laquo; </small><?php echo $this->__('Back to My Returns') ?></a></p>
+</div>
+<?php endif;?>
+<div class="rma-confirmation-form-overlay" id="rma-confirmation-form-overlay" style="display:none;">&nbsp;</div>

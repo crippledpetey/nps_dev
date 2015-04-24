@@ -1,0 +1,162 @@
+tables:
+  rma/rma:
+    - rma_id: 2
+      increment_id: string
+      guest_id: string
+      firstname: John Doe
+      lastname: John Doe
+      company: string
+      telephone: string
+      email: john_test@example.com
+      street: string
+      city: string
+      region: string
+      region_id: 2
+      country_id: string
+      postcode: string
+      customer_id: 2
+      order_id: 2
+      status_id: 2
+      store_id: 2
+      tracking_code: string
+      is_resolved: 2
+      created_at: 2014-01-21 08:58:57
+      updated_at: 2014-01-21 08:58:57
+  rma/rma_store:
+    - rma_store_id: 2
+      rma_id: 2
+      store_id: 2
+  rma/item:
+    - item_id: 2
+      rma_id: 2
+      product_id: 2
+      order_item_id: 2
+      reason_id: 2
+      resolution_id: 2
+      condition_id: 2
+      qty_requested: 2
+      qty_returned: 2
+      created_at: 2014-01-21 08:58:57
+      updated_at: 2014-01-21 08:58:57
+  rma/reason:
+    - reason_id: 2
+      name: John Doe
+      sort_order: 2
+      is_active: 2
+  rma/status:
+    - status_id: 2
+      name: John Doe
+      sort_order: 2
+      is_rma_resolved: 2
+      customer_message:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+      admin_message:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+      history_message:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+      is_active: 2
+  rma/resolution:
+    - resolution_id: 2
+      name: John Doe
+      sort_order: 2
+      is_active: 2
+  rma/condition:
+    - condition_id: 2
+      name: John Doe
+      sort_order: 2
+      is_active: 2
+  rma/comment:
+    - comment_id: 2
+      rma_id: 2
+      user_id: 2
+      customer_id: 2
+      customer_name: John Doe
+      text:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+      is_html: 2
+      is_visible_in_frontend: 2
+      is_customer_notified: 2
+      status_id: 2
+      created_at: 2014-01-21 08:58:57
+      updated_at: 2014-01-21 08:58:57
+  rma/field:
+    - field_id: 2
+      name: John Doe
+      code: string
+      type: string
+      values:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+      description:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+      is_active: 2
+      sort_order: 2
+      is_required_staff: 2
+      is_required_customer: 2
+      is_visible_customer: 2
+      is_editable_customer: 2
+  rma/item:
+    - item_id: 2
+      name: John Doe
+      product_options:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+  rma/comment:
+    - comment_id: 2
+      email_id: john_test@example.com
+  rma/status:
+    - status_id: 2
+      code: string
+  rma/rma:
+    - rma_id: 2
+      last_reply_name: John Doe
+      last_reply_at: 2014-01-21 08:58:57
+  rma/field:
+    - field_id: 2
+      visible_customer_status: string
+  rma/rma:
+    - rma_id: 2
+      is_gift: 2
+  rma/rma:
+    - rma_id: 2
+      exchange_order_id: 2
+      credit_memo_id: 2
+  rma/resolution:
+    - resolution_id: 2
+      code: string
+  rma/item:
+    - item_id: 2
+      to_stock: 2
+  rma/comment:
+    - comment_id: 2
+      is_read: 2
+  rma/field:
+    - field_id: 2
+      is_show_in_confirm_shipping: 2
+  rma/template:
+    - template_id: 2
+      name: John Doe
+      template:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+      is_active: 2
+  rma/template_store:
+    - template_store_id: 2
+      template_id: 2
+      store_id: 2
+  rma/rma:
+    - rma_id: 2
+      is_admin_read: 2

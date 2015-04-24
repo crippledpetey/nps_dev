@@ -1,0 +1,118 @@
+li.visibility-0 {
+    border: 1px solid #dd9898;
+    border-left: 5px solid #dd9898;
+    background: #fffafa;
+    padding-top: 5px;
+}
+li.visibility-1 {
+    border: 1px solid #8eb589;
+    border-left: 5px solid #8eb589;
+    background: #fdfffd;
+    padding-top: 5px;
+}
+
+li.visibility-2 {
+    border: 1px solid #9cb4c5;
+    border-left: 5px solid #9cb4c5;
+    background: #fffafa;
+    padding-top: 5px;
+}
+
+
+.rma-comments .comment {
+  *zoom: 1;
+  position: relative;
+  border: 1px solid #d8d8d8;
+  margin: 50px 0px;
+  -webkit-border-radius: 0px 5px 5px 0px;
+  -moz-border-radius: 0px 5px 5px 0px;
+  border-radius: 0px 5px 5px 0px;
+  padding: 10px;
+}
+.rma-comments {
+	margin-top: -20px;
+	margin-bottom: -40px;
+}
+.rma-comments .comment:before,
+.rma-comments .comment:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.rma-comments .comment:after {
+  clear: both;
+}
+.rma-comments .comment .comment-header {
+  position: absolute;
+  top: -28px;
+  font-weight: bold;
+  margin-left: -15px;
+}
+.rma-comments .comment:after {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #d8d8d8;
+  position: absolute;
+  top: -9px;
+  left: 10px;
+  content: '';
+}
+.rma-comments .comment.staff {
+  border: 1px solid #8eb589;
+  border-left: 5px solid #8eb589;
+  background: #fdfffd;
+}
+.rma-comments .comment.staff:after {
+  border-bottom-color: #8eb589;
+}
+.rma-comments .comment.user {
+  border: 1px solid #9cb4c5;
+  border-left: 5px solid #9cb4c5;
+  background: #fafcff;
+}
+.rma-comments .comment.user:after {
+  border-bottom-color: #9cb4c5;
+}
+.rma-comments .comment.internal,
+.rma-comments .comment.internal_third {
+  border: 1px solid #dd9898;
+  border-left: 5px solid #dd9898;
+  background: #fffafa;
+}
+.rma-comments .comment.internal:after,
+.rma-comments .comment.internal_third:after {
+  border-bottom-color: #dd9898;
+}
+.rma-comments .comment a {
+  color: #1e0fbe;
+}
+.rma-comments .comment .attachment {
+  margin: 8px 0px 1px 0px;
+}
+.rma-comments .comment .attachment a {
+  margin-right: 5px;
+  color: #ea7601;
+}
+
+#rma_reply_note {
+  margin-top: 2px;
+  margin-left: 150px;
+}
+
+.rmaadmin-adminhtml-rma-edit .hor-scroll table.form-list td.value textarea#reply,
+.rmaadmin-adminhtml-rma-add .hor-scroll table.form-list td.value textarea#reply {
+  height: 15em;
+  width: 100%;
+  padding: 10px 13px;
+  border: 1px solid #8eb589;
+  background: #fdfffd;
+  border-left: 5px solid #8eb589;
+}
+.rmaadmin-adminhtml-rma-edit .hor-scroll table.form-list td.value textarea#reply.internal,
+.rmaadmin-adminhtml-rma-add .hor-scroll table.form-list td.value textarea#reply.internal {
+  border: 1px solid #dd9898;
+  background: #fffafa;
+  border-left: 5px solid #dd9898;
+}

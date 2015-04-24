@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+		<reference name="head">			
+            <action method="addItem"><type>skin_css</type><name>halo_slideshow/slideshow.css</name></action>
+            <action method="addItem"><type>skin_js</type><name>halo_slideshow/slideshow.js</name></action>
+		</reference>
+	</default>
+	<adminhtml_widget_instance_edit>
+		<update handle="editor"/>
+	</adminhtml_widget_instance_edit>
+</layout>

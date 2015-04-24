@@ -1,0 +1,145 @@
+(Incl. Tax %s),(Incl. Tax %s)
+Allow Backorders,Allow Backorders
+Assign by:,Assign by:
+Apply Option SKU Policy To,Apply Option SKU Policy To
+Backend,Backend
+Beside Option,Beside Option
+Product IDs,Product IDs
+Product SKUs,Product SKUs
+Product Grid Multiselect,Product Grid Multiselect
+Example:,Example:
+Enable Cost,Enable Cost
+"Select Options Templates and Save the product to apply options or <a href=""%s"" target=""_blank"">click here to define</a>","Select Options Templates and Save the product to apply options or <a href=""%s"" target=""_blank"">click here to define</a>"
+Action,Action
+Add Options,Add Options
+Add Options Template,Add Options Template
+and,and
+New Template,New Template
+Advanced Product Options,Advanced Product Options
+All Store Views,All Store Views
+Attrib. Set Name,Attrib. Set Name
+Append to Product Gallery,Append to Product Gallery
+Buy,Buy
+Bundle with dynamic pricing cannot include custom defined options. Options will not be saved,Bundle with dynamic pricing cannot include custom defined options. Options will not be saved
+Cart and Order,Cart and Order
+Characters left:,Characters left:
+Change Image,Change Image
+Children,Children
+Choose Store View,Choose Store View
+Color,Color
+Copy,Copy
+Custom Options,Custom Options
+Customer Groups,Customer Groups
+Default,Default
+Default Option Qty Field Label,Default Option Qty Field Label
+Default Text,Default Text
+Default Option SKU Policy,Default Option SKU Policy
+Delete,Delete
+Description,Description
+Display Qty for Options on the Front-end,Display Qty for Options on the Front-end
+Div CSS Class,Div CSS Class
+Disable,Disable
+Do Not Restore Deleted Options,Do Not Restore Deleted Options
+Edit Template \'%s\',Edit Template \'%s\'
+Grouped,Grouped
+Add Tier Price,Add Tier Price
+Add Special Price,Add Special Price
+each,each
+Enable Custom Options for Customer Groups,Enable Custom Options for Customer Groups
+Enable Custom Options Inventory,Enable Custom Options Inventory
+Enable Date for Special Price,Enable Date for Special Price
+Enable Dependent Custom Options,Enable Dependent Custom Options
+Enable Image Mode,Enable Image Mode
+Enable Option SKU Policy,Enable Option SKU Policy
+Enable Qnty Field for Custom Options on the Front-end,Enable Qnty Field for Custom Options on the Front-end
+Enable Specifying CSS Class in Option Div,Enable Specifying CSS Class in Option Div
+Enable Weight,Enable Weight
+Enable Absolute Weight,Enable Absolute Weight
+Enable Absolute Price,Enable Absolute Price
+Enable Pre-populating Text for Input Options,Enable Pre-populating Text for Input Options
+Enable Tier Price,Enable Tier Price
+File,File
+"Enable ""Starting at"" Price Prefix","Enable ""Starting at"" Price Prefix"
+Id,Id
+If you delete this item(s) all the options inside will be deleted as well?,If you delete this item(s) all the options inside will be deleted as well?
+Ignore for First Image,Ignore for First Image
+Images Above Options (except Radio and Checkbox),Images Above Options (except Radio and Checkbox)
+Image Mode,Image Mode
+Independent,Independent
+Items left:,Items left:
+Dependency,Dependency
+Is Disabled,Is Disabled
+for,for
+Gallery,Gallery
+Hide,Hide
+Hide Dependent Custom Options,Hide Dependent Custom Options
+Manage Options Templates,Manage Options Templates
+Manage Templates,Manage Templates
+Max Input Vars Left:,Max Input Vars Left:
+Max Input Vars is Reached!,Max Input Vars is Reached!
+Link Assigned Product's Attributes to Option via SKU,Link Assigned Product's Attributes to Option via SKU
+Name,Name
+None,None
+New Options Template,New Options Template
+Options do not exist,Options do not exist
+Options Information,Options Information
+Options were successfully deleted,Options were successfully deleted
+Options were successfully saved,Options were successfully saved
+Options,Options
+Open Manual,Open Manual
+Order Only,Order Only
+Out-of-Stock Options,Out-of-Stock Options
+Out of stock,Out of stock
+Overlay,Overlay
+Please select Option(s),Please select Option(s)
+Options Template:,Options Template:
+Options Templates,Options Templates
+Replacement,Replacement
+Replace Product Gallery,Replace Product Gallery
+Price,Price
+Template Options,Template Options
+Products,Products
+Product prices reindexed (100%)...,Product prices reindexed (100%)...
+Qnty Input,Qnty Input
+Qty,Qty
+Save And Continue Edit,Save And Continue Edit
+Save,Save
+save,save
+Select All,Select All
+Select Children,Select Children
+Select Visible,Select Visible
+SKU,SKU
+SKU Policy,SKU Policy
+Show Qty per Option in Cart,Show Qty per Option in Cart
+"Some options are not available for your customer group. Please, edit product ""%s""","Some options are not available for your customer group. Please, edit product ""%s"""
+Some options are not available for your customer group,Some options are not available for your customer group
+Spec,Spec
+Special Price,Special Price
+Special Prices:,Special Prices:
+Tier Prices:,Tier Prices:
+Comment,Comment
+Set Product Out of Stock If Required Option is Out of Stock,Set Product Out of Stock If Required Option is Out of Stock
+Status,Status
+Starting applying options to products...,Starting applying options to products...
+Standard,Standard
+Starting at,Starting at
+Swatch,Swatch
+Swatch Multiselect,Swatch Multiselect
+There are no Options,There are no Options
+Title,Title
+Tier,Tier
+Total of %d record(s) were successfully deleted,Total of %d record(s) were successfully deleted
+Total of %d record(s) were successfully updated,Total of %d record(s) were successfully updated
+Total %1$s, processed %2$s products (%3$s%%)...,Total %1$s, processed %2$s products (%3$s%%)...
+Type,Type
+Unable to find Options to save,Unable to find Options to save
+Unselect All,Unselect All
+Unselect Visible,Unselect Visible
+Unassigned options removed (100%)...,Unassigned options removed (100%)...
+Update Assigned Options' Stock on Save,Update Assigned Options' Stock on Save
+Visibility,Visibility
+View Mode,View Mode
+View Product,View Product
+Visible,Visible
+Hidden,Hidden
+Use Config,Use Config

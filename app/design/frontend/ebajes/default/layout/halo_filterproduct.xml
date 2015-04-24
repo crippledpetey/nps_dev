@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layout version="0.0.1">
+	<default>
+		<reference name="head">
+           <action method="addCss"><stylesheet>css/halo_filterproduct/halo_filterproduct.css</stylesheet></action>
+			<action method="addItem"><type>skin_js</type><name>js/halo_filterproduct/halo_filterproduct.js</name><params/></action>
+        </reference>
+	</default>
+</layout>

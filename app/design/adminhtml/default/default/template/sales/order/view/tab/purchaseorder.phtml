@@ -1,0 +1,151 @@
+<?php
+/**
+* Magento
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE_AFL.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@magentocommerce.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade Magento to newer
+* versions in the future. If you wish to customize Magento for your
+* needs please refer to http://www.magentocommerce.com for more information.
+*
+* @category    design
+* @package     default_default
+* @copyright   Copyright (c) 2015 Need Plumbing Supplies. (http://www.needplumbingsupplies.com)
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*/
+?>
+<?php 
+    //set the order var
+    $_order = $this->getOrder();
+    $_orderId = $_order->getId();
+    $_orderInfo = $_order->getData();
+    $DS = DIRECTORY_SEPARATOR;
+?>
+<style>
+<?php echo file_get_contents( Mage::getBaseDir().$DS.'app'.$DS.'code'.$DS.'local'.$DS.'NPS'.$DS.'CustomAdminFunctions'.$DS.'Helper'.$DS.'purchase-order-style.css'); ?>
+</style>
+<?php foreach($this->_getVendors() as $vendor ) : ?>
+    <?php $pos = $this->_getPurchaseOrders( $vendor['po_table'], $_orderId );?>
+    <?php if( !empty( $pos ) ) : ?>
+        <?php foreach($pos as $po ) : ?>
+            <form action="#" id="vendor_purchase_order_<?php echo $po['po_number'] ?>" method="post">
+                <div id="purchase_order_form_contents">
+                <div class="entry-edit">
+                    <div class="section-config">
+                        <div class="entry-edit-head">
+                            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__( $vendor['vendor_label'] . ' Purchase Orders') ?></h4>
+                        </div>
+                        <div class="fieldset" id="grop_fields">
+                            <div id="sales_order_tabs_purchase_order_container">
+                                <p>Below you will find all purchase orders that have been sourced to <?php echo $vendor['vendor_label'] ?></p>
+                                <br style="display:block;height:30px;">
+                                <div class="grid">
+                                    <div class="form-group">
+                                        <table cellspacing="0" class="data vendor-purchase-order-tables">
+                                            <thead>
+                                                <tr class="headings">
+                                                    <th class="a-center">PO Number</th>
+                                                    <th class="a-center">PO Status</th>
+
+                                                    <th class="a-center"><span class="nobr">Internal Product ID</span></th>
+                                                    <th class="a-center"><span class="nobr">Vendor Product ID</span></th>
+                                                    <th class="a-center"><span class="nobr">QTY Ordered</span></th>
+
+                                                    <th class="a-center"><span class="nobr">Unit Price</span></th>
+                                                    <th class="a-center"><span class="nobr">Unit Price w/ Tax</span></th>
+                                                    <th class="a-center"><span class="nobr">Line Price</span></th>
+                                                    <th class="a-center"><span class="nobr">Line Price w/ Tax</span></th>
+                                                    <th class="a-center"><span class="nobr">Unit Cost</span></th>
+                                                    <th class="a-center"><span class="nobr">Line Cost</span></th>
+
+                                                    <th class="a-center"><span class="nobr">Shipped</span></th>
+                                                    <th class="a-center"><span class="nobr">Tracking</span></th>
+                                                    <th class="a-center last"><span class="nobr">Est. Ship Date</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="even">
+                                                <?php foreach( $this->_getPurchaseOrderItems($vendor['po_item_table'], $_orderId, $po['po_number']) as $po_item ):?>
+                                                <tr class="border">
+                                                    <td class="a-center"><?php echo $po_item['po_number'] ?></td>
+                                                    
+                                                    <?php if( $po['imported'] == 1 ) :?>
+                                                        <td class="a-center bkg-success">IMPORTED</td>
+                                                    <?php else: ?>
+                                                        <td class="a-center bkg-danger">AWAITING VENDOR</td>
+                                                    <?php endif; ?>
+                                                    </td>
+
+                                                    <td class="a-center"><?php echo $po_item['nps_uid'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['tdp_uid'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['qty_ordered'] ?></td>
+
+                                                    <td class="a-center"><?php echo $po_item['unit_price'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['unit_price_incl_tax'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['line_price'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['line_price_incl_tax'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['unit_cost'] ?></td>
+                                                    <td class="a-center"><?php echo $po_item['line_cost'] ?></td>
+
+                                                    <?php 
+                                                        if($po_item['shipped']){
+                                                            echo '<td class="a-center bkg-success">YES</td>';
+                                                        } else {
+                                                            echo '<td class="a-center bkg-danger">NO</td>';
+                                                        }
+                                                    ?>
+                                                    <td class="a-center">
+                                                    <?php 
+                                                        if(!empty( $po_item['tracking_number'] ) ){
+                                                            //get vedor shipping information
+                                                            $shipping_info = $this->_getVendorShippingMethod( $vendor['id'], $po['courier_code'] );
+                                                            $link_url =  $this->_shipperTrackingLink( $shipping_info['courier'], $po_item['tracking_number'] );
+                                                            echo '<a href="" title="Click here to open the ' . $shipping_info['courier'] . ' tracking website in a new location" target="_blank">' . $po_item['tracking_number'] . '</a>';
+                                                        } else {
+                                                            echo "NONE PROVIDED";
+                                                        }
+                                                    ?>
+                                                    </td>
+                                                    <td class="a-center last">
+                                                    <?php 
+                                                        if(!empty( $po_item['exp_ship_date'] ) ){
+                                                            echo date('m/d/Y', strtotime( $shipping_info['exp_ship_date'] ) );
+                                                        } else {
+                                                            echo "NONE PROVIDED";
+                                                        }
+                                                    ?>
+                                                    </td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div style="clear:both;whitespace:normal;width:100%;height:45px;display:block;"></div>
+                                <div class="gird">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        <?php endforeach; ?>            
+    <?php else: ?>
+    <h3>There are no purchase orders created for this order</h3>
+    <?php endif; ?>
+<?php endforeach; ?>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        
+    });
+</script>

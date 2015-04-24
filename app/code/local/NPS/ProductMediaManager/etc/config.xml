@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <NPS_ProductMediaManager>
+            <version>0.1.0</version>
+        </NPS_ProductMediaManager>
+    </modules>
+    <global>
+        <helpers>
+            <productmediamanager>
+                <class>NPS_ProductMediaManager_Helper</class>
+            </productmediamanager>
+        </helpers>
+        <events>     
+            <catalog_product_save_after>      
+                <observers>     
+                    <product_save_media_gallery_order>     
+                        <type>singleton</type>  
+                        <class>NPS_ProductMediaManager_Model_Observer</class>
+                        <method>updateGalleryOrder</method>  
+                    </product_save_media_gallery_order>
+                    <import_mage_product_image>     
+                        <type>singleton</type>  
+                        <class>NPS_ProductMediaManager_Model_Observer</class>
+                        <method>mageImageToMediaGallery</method>  
+                    </import_mage_product_image>
+                </observers>  
+            </catalog_product_save_after> 
+        </events>
+        <blocks>
+            <productmediamanager>
+                    <class>NPS_ProductMediaManager_Block</class>
+            </productmediamanager>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_edit_tabs>NPS_ProductMediaManager_Block_Adminhtml_Tabs</catalog_product_edit_tabs>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+    </global>
+    <admin>
+    </admin>
+    <adminhtml>
+        <!--
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <catalog>
+                            <children>
+                                <AttributeManager translate="title" module="productmediamanager">
+                                    <title>NPS Attribute Tools</title>
+                                    <sort_order>-10</sort_order>
+                                </AttributeManager>
+                            </children>
+                        </catalog>
+                    </children>
+                </admin>
+            </resources>
+        </acl>-->
+    </adminhtml>
+    <frontend>
+    </frontend>
+</config>

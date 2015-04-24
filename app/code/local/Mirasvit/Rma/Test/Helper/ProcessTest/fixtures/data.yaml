@@ -1,0 +1,94 @@
+scope:
+  website: # Initialize websites
+    - website_id: 2
+      code: usa_website
+      name: USA Website
+      default_group_id: 2
+  group: # Initializes store groups
+    - group_id: 2
+      website_id: 2
+      name: USA Store Group
+      default_store_id: 2
+      root_category_id: 2 # Default Category
+  store: # Initializes store views
+    - store_id: 2
+      website_id: 2
+      group_id: 2
+      code: usa
+      name: USA Store
+tables:
+  helpdesk/email:
+    -
+      email_id: 2
+      from_email: john@example.com
+      to_email: support@company.com
+      subject: Ticket Subject 2
+      body: Ticket Body 2
+      sender_name: John Doe
+      gateway_id: 2
+    -
+      email_id: 3
+      from_email: john@example.com
+      to_email: support@company.com
+      subject: Ticket Subject 3
+      body: Ticket Body 3
+      sender_name: John Doe
+      gateway_id: 2
+    -
+      email_id: 4
+      from_email: john@example.com
+      to_email: support@company.com
+      subject: '[#AAA-123-45678]Ticket Subject 4'
+      body: Ticket Body 4
+      sender_name: John Doe
+      gateway_id: 2
+  helpdesk/department:
+    -
+      department_id: 2
+      name: Customer Care Department
+      sender_email: sales
+      is_active: 1
+      signature: "Customer Care Team"
+      sort_order: 10
+      is_notification_enabled: 1
+      notification_email: test@mirasvit.com
+  helpdesk/gateway:
+    -
+      gateway_id: 2
+      name: Gateway 2
+      department_id: 2
+      store_id: 2
+  admin/user:
+    - user_id: 2
+      firstname: Mike
+      lastname: Peterson
+      email: mike_test@example.com
+      username: mike
+      is_active: 1
+  rma/rma:
+    - rma_id: 2
+      increment_id: '1000002'
+      guest_id: 'abcdef12345'
+      firstname: John
+      lastname: Doe
+      company: string
+      telephone: string
+      email: john_test@example.com
+      street: string
+      city: string
+      region: string
+      region_id: 2
+      country_id: string
+      postcode: string
+      comment:  |
+        text, text, text
+        text, text, text
+        text, text, text.
+      customer_id: 2
+      order_id: 2
+      status_id: 2
+      store_id: 2
+      tracking_code: string
+      is_resolved: 1
+      created_at: 2014-01-21 08:58:57
+      updated_at: 2014-01-21 08:58:57

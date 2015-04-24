@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ */
+-->
+<widgets>
+    <filterproducts_list type="filterproducts/list" translate="name description" module="filterproducts" template="halo_filterproducts/list.phtml">
+        <name>HALOTHEMES Filter Products</name>
+        <description>Adds a simple list of Product</description>
+        <parameters>
+			<type_filter translate="label">
+                <label>Select condition of product for filtering</label>
+                <visible>1</visible>
+                <type>select</type>
+                <values>
+					<none translate="label">
+                        <value>''</value>
+                        <label>Please Select Condition</label>
+                    </none>
+					<bestseller translate="label">
+                        <value>bestseller</value>
+                        <label>Best Seller</label>
+                    </bestseller>
+					<featured translate="label">
+                        <value>halo_featured</value>
+                        <label>Featured Products</label>
+                    </featured>
+					<most_viewed translate="label">
+                        <value>most_viewed</value>
+                        <label>Most Viewed</label>
+                    </most_viewed>
+					<new_products translate="label">
+                        <value>new_products</value>
+                        <label>New Products</label>
+                    </new_products>
+					<sale_off translate="label">
+                        <value>sale_off</value>
+                        <label>Sale Off</label>
+                    </sale_off>
+                    <homepage_feat translate="label">
+                        <value>homepage_feat</value>
+                        <label>Featured on Homepage</label>
+                    </homepage_feat>
+                </values>
+            </type_filter>
+            <category translate="label">
+                <visible>1</visible>
+                <label>Catagory</label>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_category_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Category...</open>
+                        </button>
+                    </data>
+                </helper_block>
+                <sort_order>6</sort_order>
+            </category>
+            <column_count>
+	            <label>Column Count</label>
+                <visible>1</visible>
+                <required>1</required>
+                <description>The numbers of product per a row</description>
+                <type>text</type>
+                <value>3</value>
+                <sort_order>1</sort_order>
+            </column_count>
+            <limit_count>
+                <label>Limit Count</label>
+                <description>The numbers of product will be show</description>
+                <visible>1</visible>
+                <required>1</required>
+                <type>text</type>
+                <value>9</value>
+                <sort_order>2</sort_order>
+            </limit_count>
+            <thumbnail_width>
+				<label>Thumbnail Width</label>
+                <description>The width of thumbnail product(px)</description>
+                <visible>1</visible>
+                <required>1</required>
+                <type>text</type>
+                <value>150</value>
+                <sort_order>3</sort_order>
+			</thumbnail_width>
+			<thumbnail_height>
+				<label>Thumbnail Height</label>
+                <description>The height of thumbnail product(px)</description>
+                <visible>1</visible>
+                <required>1</required>
+                <type>text</type>
+                <value>250</value>
+                <sort_order>4</sort_order>
+			</thumbnail_height>
+            <template translate="label">
+                <label>Frontend Template</label>
+                <visible>1</visible>
+                <required>1</required>
+                <type>select</type>
+                <values>
+                    <list translate="label">
+                        <value>halo_filterproducts/list.phtml</value>
+                        <label>List products</label>
+                    </list>
+					<grid translate="label">
+                        <value>halo_filterproducts/grid.phtml</value>
+                        <label>Grid products</label>
+                    </grid>
+					<cust translate="label">
+                        <value>custom_template</value>
+                        <label>Display as custom template ...</label>
+                    </cust>
+                </values>
+            </template>
+			<custom_theme>				
+				<label>Custom template :</label>
+				<description>Effect only when selecting "Display as custom template..."</description>
+				<visible>1</visible>				
+				<type>text</type>
+				<value></value>
+			</custom_theme>
+        </parameters>
+    </filterproducts_list>
+</widgets>

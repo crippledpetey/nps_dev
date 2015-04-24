@@ -1,0 +1,36 @@
+"An error occured while updating GeoIP database.","An error occured while updating GeoIP database."
+Auto Switch Address Country,Auto Switch Address Country
+Auto Switch Billing Country,Auto Switch Billing Country
+Auto Switch Shipping Country,Auto Switch Shipping Country
+Country,Country
+"Creating current database backup...","Creating current database backup..."
+Currency Autoswitcher,Currency Autoswitcher
+"Database archive is currently unavailable. Try again later (in 24 hours).","Database archive is currently unavailable. Try again later (in 24 hours)."
+Database Type,Database Type
+"Deleting temporary files...","Deleting temporary files..."
+Disable Key,Disable Key
+"Downloading database archive...","Downloading database archive..."
+Enable Currency Auto Switcher,Enable Currency Auto Switcher
+Enable Store Auto Switcher,Enable Store Auto Switcher
+Exception URLs,Exception URLs
+Exception URLs are relative URLs to your Store URL used mainly to disable Store Auto Switcher for payment processing gateways.<br/>Enter one URL per line.<br/><b>*</b> means anything<br/><b>Example:</b><br/>/paypal/*<br/>/twocheckout/*,Exception URLs are relative URLs to your Store URL used mainly to disable Store Auto Switcher for payment processing gateways.<br/>Enter one URL per line.<br/><b>*</b> means anything<br/><b>Example:</b><br/>/paypal/*<br/>/twocheckout/*
+GeoIP,GeoIP
+GeoIP City,GeoIP City
+GeoIP Country,GeoIP Country
+"GeoIP Database","GeoIP Database"
+GeoIP Location,GeoIP Location
+Force Store View for Geo Location,Force Store View for Geo Location
+"If set to ""No"", customers can switch store views manually","If set to ""No"", customers can switch store views manually"
+"If set to ""Website"" the switcher works within one website only <br/>If set to ""Global"" the switcher works between websites","If set to ""Website"" the switcher works within one website only <br/>If set to ""Global"" the switcher works between websites"
+IP List,IP List
+IP Location,IP Location
+"List of IPs for which Store Switcher should be disabled<br/><b>Example:</b><br/>123.123.123.123<br/>123.123.*.*","List of IPs for which Store Switcher should be disabled<br/><b>Example:</b><br/>123.123.123.123<br/>123.123.*.*"
+"List of User Agents for which Store Switcher should be disabled. Enter one User Agent per line<br/><b>Example:</b><br/>gsa-crawler<br/>Googlebot*","List of User Agents for which Store Switcher should be disabled. Enter one User Agent per line<br/><b>Example:</b><br/>gsa-crawler<br/>Googlebot*"
+n/a,n/a
+Path to GeoIP database file. Can be either relative to Magento root folder or absolute to your file system,Path to GeoIP database file. Can be either relative to Magento root folder or absolute to your file system
+Store Auto Switcher Scope,Store Auto Switcher Scope
+"To disable Store Auto Switcher for administrative purposes use this key, e.g.<br/>http://www.example.com/?_store_switcher_=<b>key</b>","To disable Store Auto Switcher for administrative purposes use this key, e.g.<br/>http://www.example.com/?_store_switcher_=<b>key</b>"
+"Uncompressing archive...","Uncompressing archive..."
+"Upadate Current Database","Upadate Current Database"
+"Update Database","Update Database"
+User Agent List,User Agent List

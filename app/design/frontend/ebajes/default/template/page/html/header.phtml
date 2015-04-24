@@ -1,0 +1,104 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<div id="user-ip" class="hidden" data-uip="<?php echo $_SERVER['REMOTE_ADDR'] ?>"></div>
+<div class="header-container">
+	<div class="quick-access">
+		<div class="inner-quick-access">
+			<div id="header-logo-container">
+				<?php if ($this->getIsHomePage()):?>
+		        <h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+		        <?php else:?>
+		        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+		        <?php endif?>
+		    </div>
+		    <div class="header-container-left" style="margin-left: 30px;">
+	            <p class="welcome-msg"><?php echo $this->getChildHtml('welcome') ?> <?php echo $this->getAdditionalHtml() ?></p>
+				<a href="<?php echo Mage::helper('customer')->getLoginUrl() ?>"><?php echo $this->__('Login');?></a>
+				<span><?php echo $this->__('or');?></span>
+				<a href="<?php echo Mage::helper('customer')->getRegisterUrl() ?>"><?php echo $this->__('Signup');?></a>
+			</div>
+				
+            <?php echo $this->getChildHtml('topLinks') ?>
+            <?php 
+            	$store_phone = Mage::getStoreConfig('general/store_information/phone');
+            	echo  '<div id="header-phone">Call Us: <a href="tel:' . $store_phone . '" title="Call Us!">'. $store_phone . '</a></div>';
+            ?>
+			<?php 
+			$_cartQty = Mage::getSingleton('checkout/cart')->getSummaryQty()?Mage::getSingleton('checkout/cart')->getSummaryQty():'0'; ?>
+			<?php 
+			$_subtotals = Mage::getSingleton('checkout/cart')->getQuote()->getTotals();
+			$subtotal = $_subtotals["subtotal"]->getValue();
+			?>
+			<div class="div_link-cart header-top-cart">
+				<div class="div_link-cart_inner">
+					<!--div class="top-cart">
+					<?php //$_strQty = $_cartQty; ?>
+					<?php //echo '<a href="'.$this->getUrl('checkout/cart').'" id="topcartlink" class="top-link-cart">'.$this->__('Shopping Cart:').'<span>('.$_strQty.$this->__(')').'</span></a>' ?>
+					</div-->
+					<!--div class="top-checkout">
+					<?php //echo '<a href="'.$this->getUrl('checkout/onepage').'" id="checkout" class="top-link-cart-checkout">'.$this->__('Checkout').'</a>' ?>
+					</div-->
+					<div id="top_cart_sidebar" style="display:none">
+						<?php echo $this->getChildHtml('cart_sidebar_top');?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php if( !empty( $this->getChildHtml('topContainer') ) || !empty( $this->getChildHtml('store_language') ) ){ ?>
+		<div class="header">
+	        <?php //echo $this->getChildHtml('ebajes_header_block_info') ?>
+			<?php echo $this->getChildHtml('store_language') ?>
+	        <?php echo $this->getChildHtml('topContainer'); ?>
+	    </div>
+	    <?php } ?>
+    </div>
+	<div class="header-bottom">
+		<div class="top-search">
+		<?php echo $this->getChildHtml('topSearch') ?>
+		</div>
+		<div class="clearer"></div>
+		<?php echo $this->getChildHtml('topMenu') ?>
+	</div>
+	<div id="mobile-menu-toggle" onclick="toggleMobileMenu()"> &#9776;</div>
+</div>
+<?php 
+//ouput the below header 
+$below_header_promo = Mage::getModel('cms/block')->load('nps_below_header_promotion');
+if( $below_header_promo->_origData['is_active'] ){ ?>
+<div id="subheader-promotion">
+	<?php 
+		//process content so shortcodes render correctly
+	 	$bhp_helper = Mage::helper('cms');
+		$bhp_processor = $bhp_helper->getPageTemplateProcessor();
+		$bhp_output = $bhp_processor->filter($below_header_promo->getContent()); 
+		echo $bhp_output;
+	?>
+</div>
+<?php } ?>

@@ -1,0 +1,7 @@
+<?php
+
+class NPS_HipChat_Helper_Data extends Mage_Core_Helper_Abstract {
+
+}
+
+?>

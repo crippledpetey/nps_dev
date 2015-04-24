@@ -1,0 +1,142 @@
+<?php
+	$helper = Mage::helper('cms');
+	$processor = $helper->getBlockTemplateProcessor();
+?>
+<div class="slider-wrapper theme-default">  
+    <div id="slider" class="nivoSlider">
+    	<?php if($image1 != ""): ?> 
+			<a <?php if($url1!=""):?> href="<?php echo $processor->filter($url1) ?>"<?php endif;?>>
+				<img src="<?php echo $image1?>" alt="" title="#des01"/>
+			</a>
+		<?php endif;?>
+        
+		<?php if($image2 != ""): ?>
+        	<a <?php if($url2!=""):?> href="<?php echo $processor->filter($url2) ?>"<?php endif;?>>
+				<img src="<?php echo $image2?>" alt="" title="#des02"/>
+			</a>
+		<?php endif;?>
+        
+		<?php if($image3 != ""): ?>
+			<a <?php if($url3!=""):?> href="<?php echo $processor->filter($url3) ?>"<?php endif;?>>
+				<img src="<?php echo $image3?>" alt="" title="#des03"/>
+			</a>
+		<?php endif;?>
+        
+		<?php if($image4 != ""): ?>
+			<a <?php if($url4!=""):?> href="<?php echo $processor->filter($url4) ?>"<?php endif;?>>
+				<img src="<?php echo $image4?>" alt="" title="#des04"/> 
+			</a>
+		<?php endif;?>
+        
+		<?php if($image5 != ""): ?>
+			<a <?php if($url5!=""):?> href="<?php echo $processor->filter($url5) ?>"<?php endif;?>>
+				<img src="<?php echo $image5?>" alt="" title="#des05"/> 
+			</a>
+		<?php endif;?>
+        
+		<?php if($image6 != ""): ?>
+			<a <?php if($url6!=""):?> href="<?php echo $processor->filter($url6) ?>"<?php endif;?>>
+				<img src="<?php echo $image6?>" alt="" title="#des06"/>
+			</a>
+		<?php endif;?>
+        
+		<?php if($image7 != ""): ?>
+			<a <?php if($url7!=""):?> href="<?php echo $processor->filter($url7) ?>"<?php endif;?>>
+				<img src="<?php echo $image7?>" alt="" title="#des07"/>
+			</a>
+		<?php endif;?>
+        
+		<?php if($image8 != ""): ?>
+			<a <?php if($url8!=""):?> href="<?php echo $processor->filter($url8) ?>"<?php endif;?>>
+				<img src="<?php echo $image8?>" alt="" title="#des08"/>
+			</a>
+		<?php endif;?>
+        
+		<?php if($image9 != ""): ?>
+			<a <?php if($url9!=""):?> href="<?php echo $processor->filter($url9) ?>"<?php endif;?>>
+				<img src="<?php echo $image9?>" alt="" title="#des09"/>
+			</a>
+		<?php endif;?>		
+	</div>
+    
+    <?php if($text1 != ""): ?>
+    <div id="des01" class="nivo-html-caption">
+        <?php echo $processor->filter($text1) ?>
+    </div>
+    <?php endif; ?>
+    
+    <?php if($text2 != ""): ?>
+    <div id="des02" class="nivo-html-caption">
+        <?php echo $processor->filter($text2) ?>
+    </div>
+    <?php endif; ?>
+    
+    <?php if($text3 != ""): ?>
+    <div id="des03" class="nivo-html-caption">
+        <?php echo $processor->filter($text3) ?>
+    </div>
+    <?php endif; ?>
+    
+    <?php if($text4 != ""): ?>
+    <div id="des04" class="nivo-html-caption">
+        <?php echo $processor->filter($text4) ?>
+    </div>
+    <?php endif; ?>
+    
+    <?php if($text5 != ""): ?>
+    <div id="des05" class="nivo-html-caption">
+        <?php echo $processor->filter($text5) ?>
+    </div>
+    <?php endif; ?>
+    
+    <?php if($text6 != ""): ?>
+    <div id="des06" class="nivo-html-caption">
+        <?php echo $processor->filter($text6) ?>
+    </div>
+    <?php endif; ?>
+    
+    <?php if($text7 != ""): ?>    
+    <div id="des07" class="nivo-html-caption">
+        <?php echo $processor->filter($text7) ?>
+    </div>    
+    <?php endif; ?>
+    
+    <?php if($text8 != ""): ?>
+    <div id="des08" class="nivo-html-caption">
+        <?php echo $processor->filter($text8) ?>
+    </div>
+    <?php endif; ?>
+    
+    <?php if($text9 != ""): ?>
+    <div id="des09" class="nivo-html-caption">
+        <?php echo $processor->filter($text9) ?>
+    </div>
+    <?php endif; ?>
+    
+    <script type="text/javascript">
+	jQuery(window).load(function() {
+	    jQuery('#slider').nivoSlider({
+	        effect: <?php echo "'".$effect."'" ?>, // Specify sets like: 'fold,fade,sliceDown'
+	        slices: <?php echo $slices ?>, // For slice animations
+	        boxCols: <?php echo $boxcols ?>, // For box animations
+	        boxRows: <?php echo $boxrows ?>, // For box animations
+	        animSpeed: <?php echo $animspeed ?>, // Slide transition speed
+	        pauseTime: <?php echo $pausetime ?>, // How long each slide will show
+	        startSlide: <?php echo $startslide ?>, // Set starting Slide (0 index)
+	        directionNav: <?php echo $directionnav ?>, // Next & Prev navigation
+	        controlNav: <?php echo $controlnav ?>, // 1,2,3... navigation
+	        controlNavThumbs: false, // Use thumbnails for Control Nav
+	        pauseOnHover: <?php echo $pauseonhover ?>, // Stop animation while hovering
+	        manualAdvance: false, // Force manual transitions
+	        prevText: <?php echo "'".$processor->filter($prevtext)."'" ?>, // Prev directionNav text
+	        nextText: <?php echo "'".$processor->filter($nexttext)."'"?>, // Next directionNav text
+	        randomStart: <?php echo $randomstart ?>, // Start on a random slide
+	        beforeChange: function(){}, // Triggers before a slide transition
+	        afterChange: function(){}, // Triggers after a slide transition
+	        slideshowEnd: function(){}, // Triggers after all slides have been shown
+	        lastSlide: function(){}, // Triggers when last slide is shown
+	        afterLoad: function(){} // Triggers when slider has loaded
+	    });
+	});
+	</script>
+</div>

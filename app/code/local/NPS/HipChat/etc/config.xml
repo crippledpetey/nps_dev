@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <NPS_HipChat>
+            <version>0.1.0</version>
+        </NPS_HipChat>
+    </modules>
+    <global>
+        <helpers>
+            <hipchat>
+                <class>NPS_HipChat_Helper</class>
+            </hipchat>
+        </helpers>
+        <events>     
+            <catalog_product_save_after>      
+                <observers>     
+                    <!--<product_Save_Url_Rewrite>     
+                        <type>singleton</type>  
+                        <class>NPS_CustomAdminFunctions_Model_Observer</class>
+                        <method>updateUrlReWrite</method>  
+                    </product_Save_Url_Rewrite>-->
+                </observers>  
+            </catalog_product_save_after>
+        </events>
+        <blocks>
+            <vendormanager>
+                    <class>NPS_HipChat_Block</class>
+            </vendormanager>
+        </blocks>
+    </global>
+    <admin>
+        <routers>
+            <nps_hipchat>
+                <use>admin</use>
+                <args>
+                    <module>NPS_HipChat</module>
+                    <frontName>HipChat</frontName>
+                </args>
+            </nps_hipchat>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <system>
+                <children>
+                    <nps_hipchat_menu translate="title" module="hipchat">
+                        <title>HipChat</title> 
+                        <sort_order>30</sort_order>
+                        <action>HipChat/index/index</action>
+                    </nps_hipchat_menu>
+                </children>
+            </system>
+        </menu>
+        <!--
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <sales>
+                            <children>
+                                <nps_hipchat_menu>
+                                    <title>NPS Vendor Manager</title>
+                                    <sort_order>-10</sort_order>
+                                </nps_hipchat_menu>
+                            </children>
+                        </sales>
+                    </children>
+                </admin>
+            </resources>
+        </acl>-->
+    </adminhtml>
+</config>

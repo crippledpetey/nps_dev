@@ -1,0 +1,213 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @see Mage_Catalog_Block_Layer_View
+ */
+
+/**
+INCLUDING CUSTOM NPS PRODUCT PAGE CLASS AND INSTANTIATE
+*/
+require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.drop.class.php');
+$nps_filter = new productDrop;
+
+// set database connectors
+$connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+$tablePrefix = (string) Mage::getConfig()->getTablePrefix();
+?>
+<?php if($this->canShowBlock()): ?>
+<div class="block block-layered-nav">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Narrow Your Results') ?></span></strong>
+    </div>
+    <div class="block-content" style="padding-top: 0;">
+        <?php echo $this->getStateHtml() ?>
+        <?php if ($this->getLayer()->getState()->getFilters()): ?>
+            <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
+        <?php endif; ?>
+        <?php if($this->canShowOptions()): ?>
+            <!-- <p class="block-subtitle" STYLE="background: #D9D9D9;padding-top: 10px;border-top: 2px solid #FFF;"><?php echo $this->__('Shopping Options') ?></p> -->
+            <dl id="narrow-by-list">
+                <?php 
+
+                    //get the category ID
+                    $cat_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
+
+                    //load the category model
+                    $category = Mage::getModel('catalog/category')->load($cat_id);
+
+                    //set filters
+                    $_filters = $this->getFilters();
+
+                    //get the products
+                    $_products = $category->getProductCollection()->addCategoryFilter($category);
+                    
+                    //set blank array for the productIDs
+                    $product_ids = array();
+
+                    //loop through products to create the array
+                    foreach( $_products as $key => $prd ){
+                        $product_ids[] = $prd->getID();
+                    }
+
+                    //var_dump( $product_ids );
+
+                    //loop filters
+                    foreach ($_filters as $_filter): 
+
+                ?>
+
+                <?php
+                    //CHECK FOR PRICE TO RENDER THAT NARROW SEPARATELY
+                    if( $_filter->getName() == 'Price' ){
+                        //SET PRICE INPUT VARIABLES
+                        $minimum_variance = 25;
+                        $low_placeholder = '  ex: 100';
+                        $low_val = 0;
+                        $low_value_text = null;
+
+                        $hi_placeholder = '  ex: 150';
+                        $hi_val = null;
+                        $hi_value_text = null;
+
+                        if( isset( $_GET['price'] ) ){
+                            $price_vals = explode('-', $_GET['price'] );
+                            if( $price_vals[0] !== 0 && $price_vals[0] !== '' ){
+                                $low_val = $price_vals[0];
+                                $low_value_text = ' value="' . $low_val . '" ';
+
+                                //VERIFY HIGH MIN IS AT LEAST THE LOW
+                                $hi_min = $low_val + $minimum_variance;
+                            } 
+                            if( $price_vals[1] !== 0 && $price_vals[1] !== '' ){
+                                $hi_val = $price_vals[1];
+                                $hi_value_text = ' value="' . $hi_val . '" ';
+                            } 
+                        }
+
+                        //set url values
+                        if( !isset($_GET['q'] ) ){
+                            $orig_url = Mage::registry('current_category')->getUrl();
+
+                            //get url layer navigation keys
+                            $url_query =  trim( $_SERVER['QUERY_STRING'] );
+
+                            //if there are applied narrows
+                            if( strlen( $url_query ) > 0 ){
+                                //expand into array
+                                $url_query = explode( '&', $url_query );
+
+                                //search for applied price 
+                                foreach ( $url_query as $key => $string ){
+                                    //if this is the price query remove it                            
+                                    if( strripos( $string, 'price=' ) === 0 ){
+                                        unset( $url_query[ $key] );
+                                    }
+                                }
+
+                                //reset url
+                                $new_url = $orig_url . '?' . implode('&', $url_query) . '&';
+                                
+                            } else {
+                                //set new_url
+                                $new_url = $orig_url . '?';
+                            }
+                        } else {
+
+                            $new_url = $_SERVER['REQUEST_URI'];
+
+                            //check for existing variables
+                            $var_check = strrpos( $_SERVER['REQUEST_URI'], '?', -1);
+                            
+                            if( $var_check ){
+                                $new_url .= '&';
+                            } else {
+                                $new_url .= '?';
+                            }                            
+                        }                    
+                ?>
+                    <dt>Price Range:</dt>
+                    <dd id="price-layer-nav-outer" style="padding: 0 0 10px 0;">
+                        <?php echo str_replace('<span class="price">$0.00</span> - ', 'below ', $_filter->getHtml() ) ?>
+                        <div id="price-range-input" class="hidden"></div>
+                        <div id="price-range-number-box">
+                            <div class="price-number-input-wrapper">
+                                <input type="number" min="0" max="<?php //echo $low_max ?>" name="price-number-input-low" id="price-number-input-low" placeholder="<?php echo $low_placeholder ?>"<?php echo $low_value_text ?>>
+                            </div>
+
+                            <span class="input-separator">TO</span>
+                            
+                            <div class="price-number-input-wrapper">
+                                <input type="number" min="<?php echo $minimum_variance; ?>" max="<?php //echo $hi_max ?>" name="price-number-input-hi" id="price-number-input-hi" placeholder="<?php echo $hi_placeholder ?>"<?php echo $hi_value_text ?>>
+                            </div>
+                        </div>                        
+                        <button id="price-range-number-input-apply" title="Apply Price Range" class="button" data-url="<?php echo $new_url; ?>">
+                            <span>
+                                <span>Apply Price Range</span>
+                            </span>
+                        </button>
+                    </dd>
+                    <?php } ?>
+
+                <?php if($_filter->getItemsCount() && $_filter->getName() !== 'Price') : ?>
+                    <dt>
+                        <?php $clean_attr_title = $this->__($_filter->getName()); //clean up attribute title for processing?>
+                        <?php echo $clean_attr_title; ?>                     
+
+                        <?php 
+                            if( Mage::getModel('cms/block')->load('attr_help_' . $nps_filter->getLayerID( $_filter ) )->getIsActive() ){ //check for a static help block ?>
+                        <span class="layer-helper-toggle">?</span>
+                        <div class="layer-helper-content escapable">
+                            <span class="close-content-helper">X</span>
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('attr_help_' . $nps_filter->getLayerID( $_filter ) )->toHtml(); ?>
+                        </div>
+                        <?php } ?>
+                    </dt>
+                    <dd>
+                        <?php 
+                            //set the html
+                            $clean_attr_val = $_filter->getHtml();
+
+                            //force remove characters from layer values
+                            if( in_array( strtolower( $clean_attr_title ), array('weight') ) ){
+                                $currency_code = Mage::app()->getLocale()->currency('[CURRENCY_CODE]')->getSymbol();
+                                echo str_replace($currency_code, '', $clean_attr_val);
+                            } else {
+                                echo $clean_attr_val;
+                            }
+                        ?>
+                    </dd>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </dl>
+            <script type="text/javascript">decorateDataList('narrow-by-list')</script>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

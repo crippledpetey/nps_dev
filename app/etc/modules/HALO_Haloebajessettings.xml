@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <HALO_Haloebajessettings>
+            <active>true</active>
+            <codePool>community</codePool>
+        </HALO_Haloebajessettings>
+    </modules>
+</config> 

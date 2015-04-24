@@ -1,0 +1,33 @@
+<?php
+$rma = $this->getRma();
+?>
+<div class="rma-comments">
+<?php foreach ($rma->getCommentCollection() as $comment): ?>
+    <div class="comment <?php if ($comment->getType() == Mirasvit_Rma_Model_Config::COMMENT_INTERNAL): ?>internal<?php endif ?> <?php echo $comment->getType()?> <?php if ($comment->getTriggeredBy() == Mirasvit_Rma_Model_Config::CUSTOMER): ?>user<?php else: ?>staff<?php endif ?> ">
+        <div class="comment-header">
+                <?php if ($comment->getTriggeredBy() == Mirasvit_Rma_Model_Config::CUSTOMER): ?>
+                    <?php echo $comment->getCustomerName() ?>
+                    <?php if ($comment->getCustomerEmail() != ''): ?>
+                        , <?php echo $comment->getCustomerEmail() ?>
+                    <?php endif; ?>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                <?php elseif ($comment->getTriggeredBy() == Mirasvit_Rma_Model_Config::USER): ?>
+                    <?php echo $comment->getUserName() ?>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                <?php endif; ?>
+                <?php echo Mage::helper('core')->formatDate($comment->getCreatedAt(), 'medium') ?> <?php echo Mage::helper('core')->formatTime($comment->getCreatedAt(), 'short') ?>
+        </div>
+
+        <div class="comment-text">
+            <?php if ($comment->getText()): ?>
+                <?php echo $comment->getTextHtml() ?>
+            <?php endif; ?>
+        <?php if($attachments = $comment->getAttachments()): ?>
+            <?php foreach($attachments as $attachment): ?>
+                <br><a href="<?php echo $attachment->getUrl()?>"><?php echo $attachment->getName() ?></a>
+            <?php endforeach;?>
+        <?php endif ?>
+        </div>
+    </div>
+<?php endforeach ?>
+</div>

@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name helper="rma/data/getCssFile" /><params/></action>
+        </reference>
+
+        <reference name="footer_links">
+            <action method="addLink" translate="label title" module="rma" ifconfig="rma/frontend/is_active">
+                <label>Request Return</label>
+                <url helper="rma/getNewRmaGuestUrl" />
+                <title>Request Return</title>
+            </action>
+        </reference>
+    </default>
+
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="rma" ifconfig="rma/frontend/is_active"><name>rma</name><path>rma/rma</path><label>My Returns</label></action>
+        </reference>
+    </customer_account>
+
+    <rma_rma_order translate="label"  module="rma">
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="rma/rma_order" name="rma.rma.order" template="mst_rma/rma/order.phtml">
+                <block type="sales/order_info" as="info" name="sales.order.info">
+                    <action method="addLink" translate="label" module="sales"><name>view</name><path>sales/order/view</path><label>Order Information</label></action>
+                    <action method="addLink" translate="label" module="sales"><name>invoice</name><path>sales/order/invoice</path><label>Invoices</label></action>
+                    <action method="addLink" translate="label" module="sales"><name>shipment</name><path>sales/order/shipment</path><label>Shipments</label></action>
+                    <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>sales/order/creditmemo</path><label>Refunds</label></action>
+                    <action method="addLink" translate="label" module="sales"><name>rma</name><path></path><label>RMA</label></action>
+                    <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons" />
+                </block>
+                <block type="rma/rma_list_list" name="rma.list.list" template="mst_rma/rma/list/list.phtml"/>
+            </block>
+        </reference>
+    </rma_rma_order>
+
+    <rma_rma_index translate="label"  module="rma">
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="rma/rma_list" name="rma.rma.list" template="mst_rma/rma/list.phtml">
+                <block type="rma/rma_list_list" name="rma.list.list" template="mst_rma/rma/list/list.phtml"/>
+            </block>
+        </reference>
+    </rma_rma_index>
+
+    <rma_rma_view>
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/core/jquery.min.js</script></action>
+            <action method="addJs"><script>mirasvit/core/jquery.MultiFile.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/frontend/customer.js</script></action>
+        </reference>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="rma/rma_view" name="rma.rma.view" as="rma.rma.view" template="mst_rma/rma/view.phtml">
+            </block>
+        </reference>
+    </rma_rma_view>
+
+    <rma_rma_new>
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/core/jquery.min.js</script></action>
+            <action method="addJs"><script>mirasvit/core/jquery.MultiFile.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/frontend/customer.js</script></action>
+        </reference>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="rma/rma_new" name="rma.rma.new" as="rma.rma.new" template="mst_rma/rma/new.phtml">
+                <block type="rma/rma_new" name="rma.new.step1" as="rma.new.step1" template="mst_rma/rma/new/step1.phtml"/>
+                <block type="rma/rma_new" name="rma.new.step2" as="rma.new.step2" template="mst_rma/rma/new/step2.phtml"/>
+            </block>
+        </reference>
+    </rma_rma_new>
+
+    <rma_rma_print translate="label">
+        <reference name="content">
+            <block type="rma/rma_print" name="rma.rma.print" template="mst_rma/rma/print.phtml">
+            </block>
+        </reference>
+    </rma_rma_print>
+
+    <rma_guest_new translate="label"  module="rma">
+        <update handle="page_two_columns_right"/>
+        <reference name="content">
+            <block type="rma/rma_guest_new" name="rma.rma.new" as="rma.rma.new" template="mst_rma/rma/guest/new.phtml">
+            </block>
+        </reference>
+    </rma_guest_new>
+
+    <rma_guest_list translate="label"  module="rma">
+        <update handle="page_two_columns_right"/>
+        <reference name="content">
+            <block type="rma/rma_guest_list" name="rma.rma.list" as="rma.rma.list" template="mst_rma/rma/guest/list.phtml">
+            </block>
+        </reference>
+    </rma_guest_list>
+
+    <rma_guest_create translate="label"  module="rma">
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/core/jquery.min.js</script></action>
+            <action method="addJs"><script>mirasvit/core/jquery.MultiFile.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/frontend/customer.js</script></action>
+        </reference>
+        <update handle="page_two_columns_right"/>
+        <reference name="content">
+            <block type="rma/rma_guest_create" name="rma.rma.create" as="rma.rma.create" template="mst_rma/rma/new/step2.phtml">
+                <block type="rma/rma_guest_new" name="rma.new.gift" as="rma.new.gift" template="mst_rma/rma/guest/gift.phtml"/>
+            </block>
+        </reference>
+    </rma_guest_create>
+
+    <rma_guest_view>
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/core/jquery.min.js</script></action>
+            <action method="addJs"><script>mirasvit/core/jquery.MultiFile.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/frontend/customer.js</script></action>
+        </reference>
+        <update handle="page_two_columns_right"/>
+        <reference name="content">
+            <block type="rma/rma_guest_view" name="rma.rma.view" as="rma.rma.view" template="mst_rma/rma/view.phtml">
+            </block>
+        </reference>
+    </rma_guest_view>
+
+    <rma_guest_print translate="label">
+        <reference name="content">
+            <block type="rma/rma_print" name="rma.rma.print" template="mst_rma/rma/print.phtml">
+            </block>
+        </reference>
+    </rma_guest_print>
+
+    <sales_order_view>
+        <reference name="sales.order.info">
+            <action method="addLink" translate="label" module="sales"><name>rma</name><path>rma/rma/order</path><label>RMA</label></action>
+        </reference>
+    </sales_order_view>
+    <sales_order_invoice>
+        <reference name="sales.order.info">
+            <action method="addLink" translate="label" module="sales"><name>rma</name><path>rma/rma/order</path><label>RMA</label></action>
+        </reference>
+    </sales_order_invoice>
+    <sales_order_shipment>
+        <reference name="sales.order.info">
+            <action method="addLink" translate="label" module="sales"><name>rma</name><path>rma/rma/order</path><label>RMA</label></action>
+        </reference>
+    </sales_order_shipment>
+    <sales_order_creditmemo>
+        <reference name="sales.order.info">
+            <action method="addLink" translate="label" module="sales"><name>rma</name><path>rma/rma/order</path><label>RMA</label></action>
+        </reference>
+    </sales_order_creditmemo>
+</layout>

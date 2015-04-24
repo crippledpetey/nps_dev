@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <NPS_ProductMediaManager>
+            <active>true</active>
+            <codePool>local</codePool>
+        </NPS_ProductMediaManager>
+    </modules>
+</config>

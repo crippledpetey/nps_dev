@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="top.links">
+            <action method="addLink" translate="label title" module="manufacturer"><label>Manufacturers</label><url helper="manufacturer/getManufacturerUrl"/><title>Manufacturers</title><prepare/><urlParams/><position>20</position></action>
+        </reference> 
+    </default>
+    <manufacturer_index_index>
+        <reference name="content">
+            <block type="manufacturer/manufacturer" name="manufacturer" template="manufacturer/manufacturer.phtml" />
+        </reference>
+    </manufacturer_index_index>
+</layout> 

@@ -1,0 +1,14 @@
+<?php
+$order = $this->getOrder();
+?>
+
+<?php
+echo $this->getChildHtml('info');
+?>
+<?php if ($this->isReturnAllowed()): ?>
+    <button onclick="window.location.href='<?php echo Mage::getUrl('rma/rma/new', array('order_id' => $order->getId()))?>';" class="button pull-right"><span><span><?php echo $this->__('Request New Return')?></span></span></button>
+    <br><br>
+<?php endif ?>
+<?php
+echo $this->getChildHtml('rma.list.list');
+?>

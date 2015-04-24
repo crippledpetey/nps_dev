@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category    HALOTHEMES
+ * @package     HALO_Filterproducts
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <HALO_Filterproducts>
+            <version>0.0.1</version>
+        </HALO_Filterproducts>
+    </modules>
+	<frontend>
+        <layout>
+            <updates>
+                <filterproducts>
+                    <file>halo_filterproduct.xml</file>
+                </filterproducts>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <filterproducts>
+                <use>admin</use>
+                <args>
+                    <module>HALO_Filterproducts</module>
+                    <frontName>filterproducts</frontName>
+                </args>
+            </filterproducts>
+        </routers>
+    </admin>
+    <global>
+        <helpers>
+            <filterproducts>
+                <class>HALO_Filterproducts_Helper</class>
+            </filterproducts>
+        </helpers>
+        <blocks>
+             <filterproducts>
+                <class>HALO_Filterproducts_Block</class>
+             </filterproducts>
+        </blocks>
+        <models>
+             <filterproducts>
+                <class>HALO_Filterproducts_Model</class>
+             </filterproducts>
+        </models>
+		<resources>
+            <filterproducts_setup>
+                <setup>
+                    <module>HALO_Filterproducts</module>
+					<class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </filterproducts_setup>
+            <filterproducts_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </filterproducts_write>
+            <filterproducts_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </filterproducts_read>
+        </resources>
+    </global>
+</config>

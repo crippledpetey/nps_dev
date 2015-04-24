@@ -1,0 +1,141 @@
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss"><script>mirasvit/rma/remodal.css</script></action>
+            <action method="addCss"><script>mirasvit/rma/rma.css</script></action>
+        </reference>
+    </default>
+    <rmaadmin_adminhtml_rma_add>
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/core/jquery.min.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/adminhtml/adminhtml.js</script></action>
+            <action method="addJs"><script>mirasvit/core/jquery.MultiFile.js</script></action>
+        </reference>
+        <reference name="left">
+            <action method="setIsCollapsed"><value>true</value></action>
+        </reference>
+        <reference name="root">
+            <block type="rma/adminhtml_rma_create" name="rma_adminhtml_rma_create">
+                <block type="rma/adminhtml_rma_create_form" template="mst_rma/rma/create/form.phtml" name="form">
+                        <block type="rma/adminhtml_rma_create_order_grid" name="grid" />
+                </block>
+            </block>
+        </reference>
+    </rmaadmin_adminhtml_rma_add>
+    <rmaadmin_adminhtml_rma_edit>
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/core/jquery.min.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/lib/remodal.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/adminhtml/adminhtml.js</script></action>
+            <action method="addJs"><script>mirasvit/core/jquery.MultiFile.js</script></action>
+        </reference>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_rma_edit>
+
+    <rmaadmin_adminhtml_status_add>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_status_add>
+    <rmaadmin_adminhtml_status_edit>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_status_edit>
+
+    <rmaadmin_adminhtml_reason_add>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_reason_add>
+    <rmaadmin_adminhtml_reason_edit>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_reason_edit>
+
+    <rmaadmin_adminhtml_condition_add>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_condition_add>
+    <rmaadmin_adminhtml_condition_edit>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_condition_edit>
+
+    <rmaadmin_adminhtml_resolution_add>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_resolution_add>
+    <rmaadmin_adminhtml_resolution_edit>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_resolution_edit>
+
+    <rmaadmin_adminhtml_field_add>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_field_add>
+    <rmaadmin_adminhtml_field_edit>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_field_edit>
+
+    <rmaadmin_adminhtml_template_add>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_template_add>
+    <rmaadmin_adminhtml_template_edit>
+        <update handle="editor"/>
+    </rmaadmin_adminhtml_template_edit>
+
+    <rmaadmin_adminhtml_report_rma_index>
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/code/rma/lib/amcharts-3.4.5/amcharts.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/lib/amcharts-3.4.5/serial.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="rma/adminhtml_report_rma" template="mst_rma/report/rma/grid/container.phtml" name="report.grid.container">
+                <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
+                    <action method="setStoreVarName"><var_name>store_ids</var_name></action>
+                </block>
+                <block type="rma/adminhtml_report_rma_filter" name="grid.filter.form">
+                </block>
+                <block type="rma/adminhtml_report_rma_chart" template="mst_rma/report/rma/grid/chart.phtml" name="grid.chart"/>
+            </block>
+        </reference>
+    </rmaadmin_adminhtml_report_rma_index>
+    <rmaadmin_adminhtml_report_rma_product_index>
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/code/rma/lib/amcharts-3.4.5/amcharts.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/lib/amcharts-3.4.5/serial.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="rma/adminhtml_report_rma_product" template="mst_rma/report/rma/product/grid/container.phtml" name="report.grid.container">
+                <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
+                    <action method="setStoreVarName"><var_name>store_ids</var_name></action>
+                </block>
+                <block type="rma/adminhtml_report_rma_product_filter" name="grid.filter.form">
+                </block>
+            </block>
+        </reference>
+    </rmaadmin_adminhtml_report_rma_product_index>
+    <rmaadmin_adminhtml_report_rma_brand_index>
+        <reference name="head">
+            <action method="addJs"><script>mirasvit/code/rma/lib/amcharts-3.4.5/amcharts.js</script></action>
+            <action method="addJs"><script>mirasvit/code/rma/lib/amcharts-3.4.5/serial.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="rma/adminhtml_report_rma_brand" template="mst_rma/report/rma/brand/grid/container.phtml" name="report.grid.container">
+                <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
+                    <action method="setStoreVarName"><var_name>store_ids</var_name></action>
+                </block>
+                <block type="rma/adminhtml_report_rma_brand_filter" name="grid.filter.form">
+                </block>
+            </block>
+        </reference>
+    </rmaadmin_adminhtml_report_rma_brand_index>
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <block type="rma/adminhtml_customer_edit_tabs_rma" name="rma_rma"/>
+            <action method="addTab">
+                <name>RMA</name>
+                <block>rma_rma</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+    <adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">
+            <block type="rma/adminhtml_sales_order_view_tabs_rma" name="rma_rma"/>
+            <action method="addTab">
+                <name>RMA</name>
+                <block>rma_rma</block>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

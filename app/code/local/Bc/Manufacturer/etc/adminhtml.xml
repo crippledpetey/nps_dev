@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+* @category   Bc
+* @package    Bc_Font
+* @author     ModuleCreator
+* @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<config>
+    <menu>
+        <biztech module="manufacturer">
+            <children>
+                <logo module="manufacturer">
+                    <title>Manage Manufacturer</title>
+                    <sort_order>0</sort_order>
+                    <action>manufacturer/adminhtml_manufacturer</action>
+                </logo>
+            </children>
+        </biztech>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <biztech>
+                        <title>Biztech</title>
+                        <sort_order>10</sort_order>
+                        <children>
+                            <logo module="manufacturer" translate="title">
+                                <title>Manage Manufacturer</title>
+                                <sort_order>0</sort_order>
+                                <action>manufacturer/adminhtml_manufacturer</action>
+                            </logo>
+                        </children>
+                    </biztech>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <layout>
+        <updates>
+            <manufacturer>
+                <file>manufacturer.xml</file>
+            </manufacturer>
+        </updates>
+    </layout>
+
+</config>

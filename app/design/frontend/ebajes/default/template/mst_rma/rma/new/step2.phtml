@@ -1,0 +1,194 @@
+<?php
+$order = $this->getOrder();
+?>
+<div class="page-title">
+    <h1><?php echo $this->__("New Return for Order #%s", $order->getIncrementId()) ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form action="<?php echo $this->getStep2PostUrl()?>" method="POST" enctype="multipart/form-data"    id="rma-form-validate" >
+<input name="order_id" type="hidden" value="<?php echo $order->getId() ?>">
+
+<div class="fieldset">
+    <h2 class="legend" id="request-information"><?php echo $this->__("Request Information") ?></h2>
+    <table width="100%">
+        <tbody>
+            <tr>
+                <td>
+                    <b><?php echo $this->__("Customer Name") ?>:</b> <span id="rma-user-adress"><?php echo $order->getCustomerName() ?></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b><?php echo $this->__("Email Address") ?>:</b> <span id="rma-user-adress"><?php echo $order->getCustomerEmail() ?></span>
+                </td>
+            </tr>
+            <?php if ($order->getShippingAddress()): ?>
+                <tr>
+                    <td colspan="2">
+                        <b><?php echo $this->__("Order Shipping Address") ?>:</b> <br><?php echo $order->getShippingAddress()->format("html") ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+<?php if($this->getAllowGift()): ?>
+    <?php echo $this->getChildHtml('rma.new.gift') ?>
+<?php endif?>
+
+<div class="fieldset" id='rma-items'>
+<h2 class="legend" id="items-in-order"><?php echo $this->__("Items in this order") ?></h2>
+<?php foreach (Mage::helper('rma')->getRmaItems(null, $order) as $item): ?>
+    <?php if ($item->getProductType() == 'bundle') continue; ?>
+    <?php   $another = $this->getRmasByOrderItem($item->getOrderItem()); ?>
+    <div class="rma-one-item">
+        <div class="item-description">
+            <input type='checkbox' name="items[<?php echo $item->getOrderItemId() ?>][is_return]" onclick="orderItemClick(<?php echo $item->getOrderItemId()?>)" value='1' <?php echo $item->getQtyAvailable() == 0? 'disabled': '' ?>
+                <?php echo $item->getIsRmaAllowed()? '': 'style="visibility:hidden"' ?>
+             >
+            <img id="image" src="<?php echo $this->helper('catalog/image')->init($item->getProduct(), 'thumbnail')->resize(75) ?>"  />
+            <b><?php echo Mage::helper('rma')->getOrderItemLabel($item) ?></b>
+        </div>
+
+        <?php if ($item->getQtyAvailable() == 0): ?>
+        <div class="item-options">
+            <?php echo $this->__('There are no items for this product that can be returned.') ?><br>
+            <?php echo $this->__("Another RMA for this product: %s", $another) ?>
+        </div>
+        <?php endif ?>
+        <?php if (!$item->getIsRmaAllowed()): ?>
+        <div class="item-options">
+            <?php echo $this->__('This is a non-returnable item per our return policy.') ?><br>
+        </div>
+        <?php endif ?>
+
+        <div id='item<?php echo $item->getOrderItemId() ?>' class="item-options" style='display:none'>
+            <div>
+                <label id="user-conditional"><?php echo $this->__("Quantity to return") ?><em id="em-requered"> *</em></label>
+
+                <input name="items[<?php echo $item->getOrderItemId() ?>][qty_requested]" id="qty_requested<?php echo $item->getOrderItemId() ?>" class="input-text required-entry validate-rma-quantity digits-range-1-<?php echo $item->getQtyAvailable() ?>" style='width:40px'
+
+                value='<?php echo $item->getQtyAvailable() == 1 ? 1 : ""?>'
+                ><span class="total-qty" id="total-qty"> / <?php echo $item->getQtyAvailable() ?></span>
+            </div>
+            <div>
+                <label id="user-conditional"><?php echo $this->__("Reason") ?><em id="em-requered"> *</em></label>
+
+                <select name="items[<?php echo $item->getOrderItemId() ?>][reason_id]" id="reason_id<?php echo $item->getOrderItemId() ?>" class="required-entry">
+                    <option value=""><?php echo $this->__("-- Select a Reason --")?></option>
+                    <?php foreach ($this->getReasonCollection() as $reason): ?>
+                    <option value="<?php echo $reason->getId()?>"><?php echo $reason->getName() ?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+            <div>
+                <label id="user-conditional"><?php echo $this->__("Condition") ?><em id="em-requered"> *</em></label>
+
+                <select name="items[<?php echo $item->getOrderItemId() ?>][condition_id]" id="condition_id<?php echo $item->getOrderItemId() ?>" class="required-entry">
+                    <option value=""><?php echo $this->__("-- Select a Condition --")?></option>
+                    <?php foreach ($this->getConditionCollection() as $condition): ?>
+                    <option value="<?php echo $condition->getId()?>"><?php echo $condition->getName() ?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+
+            <div>
+                <label id="user-conditional"><?php echo $this->__("Resolution") ?><em id="em-requered"> *</em></label>
+
+                <select name="items[<?php echo $item->getOrderItemId() ?>][resolution_id]" id="resolution_id<?php echo $item->getOrderItemId() ?>" class="required-entry">
+                    <option value=""><?php echo $this->__("-- Select a Resolution --")?></option>
+                    <?php foreach ($this->getResolutionCollection() as $resolution): ?>
+                    <option value="<?php echo $resolution->getId()?>"><?php echo $resolution->getName() ?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+            <?php if ($another): ?>
+                <div id="another-rma">
+                    <?php echo $this->__("Another RMA for this product: %s",$another) ?>
+                </div>
+            <?php endif ?>
+        </div>
+    </div>
+
+<?php endforeach;?>
+</div>
+
+<div class="clearfix"></div>
+<?php
+$customFields = $this->getCustomFields();
+if ($customFields->count()):
+?>
+<div class="fieldset">
+    <ul class="form-list">
+        <?php foreach ($customFields as $field): ?>
+        <li class="control">
+            <label id="customer-field" for="<?php echo $field->getCode()?>" <?php echo $field->getIsRequiredCustomer()?'class="required"><em>*</em>':'>'?><?php echo $this->__($field->getName()) ?></label>
+            <?php echo Mage::helper('rma/field')->getInputHtml($field)?>
+            <p id="user-description"><?php echo $field->getDescription() ?></p>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<?php endif;?>
+<div class="fieldset">
+    <h2 class="legend" id="additional-information"><?php echo $this->__("Additional Information") ?></h2>
+    <ul class="form-list">
+        <li class="wide">
+            <div class="input-box">
+                <textarea name="comment" id="comment" class="input-text"></textarea>
+            </div>
+        </li>
+        <li class="wide">
+            <label for="attachment"><?php echo $this->__("Attach files") ?>
+            </label>
+            <div class="input-box">
+                <?php echo Mage::helper('mstcore/attachment')->getFileInputHtml(Mage::helper('rma/attachment')->getAllowedExtensions()) ?>
+            </div>
+            <?php echo Mage::helper('rma/attachment')->getAttachmentLimits() ?>
+        </li>
+    </ul>
+</div>
+
+<?php if ($this->getPolicyIsActive()) : ?>
+<div class="fieldset">
+    <h2 class="legend" id="policy-title"><?php echo $this->getPolicyTitle() ?></h2>
+    <ul class="form-list">
+        <li class="wide" id="policy-text">
+            <?php echo $this->getPolicyContent() ?>
+        </li>
+        <li class="control">
+            <div class="input-box" id="agree-input-box">
+                 <input id='agree' type='checkbox' class='required-entry checkbox'> <label for='agree'><?php echo $this->__("I agree") ?></label>
+            </div>
+        </li>
+    </ul>
+</div>
+<?php endif; ?>
+
+<div class="buttons-set">
+    <p class="required"><?php echo $this->__("* Required Fields") ?></p>
+    <button type="submit" title="<?php echo $this->__("Submit Request") ?>" class="button" id='rma_submit'   onclick="return dataFormSubmit(this)"><span><span><?php echo $this->__("Submit Request") ?></span></span></button>
+</div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm("rma-form-validate", true);
+    function dataFormSubmit(button){
+        if (jQuery("#rma-items input:checked" ).length == 0) {
+            alert(jQuery('#error_message_no_items').html());
+            return false;
+        }
+        if(dataForm.validator &&  dataForm.validator.validate()){
+            Form.Element.disable(button);
+            dataForm.submit();
+        }
+    }
+//]]>
+</script>
+
+<style type="text/css">
+    #rma_remove_item1 {
+        display: none;
+    }
+</style>
+<div style='display:none' id='error_message_no_items'><?php echo $this->__("Please, select RMA items which you would like to return.") ?></div>

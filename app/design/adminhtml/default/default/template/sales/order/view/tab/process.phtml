@@ -1,0 +1,331 @@
+<?php
+/**
+* Magento
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE_AFL.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@magentocommerce.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade Magento to newer
+* versions in the future. If you wish to customize Magento for your
+* needs please refer to http://www.magentocommerce.com for more information.
+*
+* @category    design
+* @package     default_default
+* @copyright   Copyright (c) 2015 Need Plumbing Supplies. (http://www.needplumbingsupplies.com)
+* @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*/
+?>
+<?php 
+    
+    //set the order var
+    $_order = $this->getOrder();
+    $_orderId = $_order->getId();
+    $_orderInfo = $_order->getData();
+
+    //get shipment info
+    $shippingData = $_order->getShippingAddress()->getData();
+
+    //set basic observerData
+    $observerData = array(
+        'order_id'                  => $_orderId,
+        'order_date'                => $_orderInfo['created_at'],
+        'shipping_code'             => $_orderId,
+        'shipping_receiving_name'   => $shippingData['firstname'] . ' ' . $shippingData['lastname'],
+        'city'                      => $shippingData['city'],
+        'region'                    => $shippingData['region'],
+        'postal'                    => $shippingData['postcode'],
+        'country'                   => $shippingData['country_id'],
+        'phone'                     => $shippingData['telephone'],
+        'buyer_email'               => $_orderInfo['customer_email'],
+        'buyer_name'                => $_orderInfo['customer_firstname'] . ' ' . $_orderInfo['customer_middlename'] . ' ' . $_orderInfo['customer_lastname'],
+        );
+
+    //check for prefixes 
+    if( !empty( $shippingData['prefix'] ) ){
+        $observerData['shipping_receiving_name'] = $shippingData['prefix'] . ' ' . $observerData['shipping_receiving_name'];
+    }
+    if( !empty( $_orderInfo['customer_prefix'] ) ){
+        $observerData['buyer_name'] = $_orderInfo['customer_prefix'] . ' ' . $observerData['buyer_name'];
+    }
+
+    //compile basic order information
+    if( stripos( $shippingData['street'], "\n") ){
+        $address_array = explode("\n",$shippingData['street']);
+        $observerData['address1'] = $address_array[0];
+        if( !empty( $address_array[1] ) ){
+            $observerData['address2'] = $address_array[1];    
+        } else {
+            $observerData['address2'] = null;    
+        }        
+    } else {
+        $observerData['address1'] = $shippingData['street'];
+        $observerData['address2'] = null;
+    }
+   
+
+    //set process products into keyed array
+    $orderProducts = array();
+    $orderProductsRaw =  $this->_getItems( $_orderId );
+    foreach( $orderProductsRaw as $product ){
+        $orderProducts[ $product['product_id'] ] = $product;
+        $observerData['cart_item_ids'][] = $product['item_id'];
+    }
+
+    //process vendor information
+    $vendorSelectHtml = '';
+    $vendorProducts = array();
+    $vendor_ids = array();
+    $vendor_codes = array();
+    foreach($this->_getVendors() as $vendor ){
+
+        //set next purchase order number
+        $next_po_number =  $this->_getNextPurchaseOrder( $_orderId, $vendor['po_table'] );
+
+        $shipping_method = $this->_getVendorShippingMethod( $vendor['id'], $_orderInfo['shipping_method'] );
+
+        //compile order information for passing in the observer   
+        $observerData['vendors'][ $vendor['id'] ] = array(
+            'id_num'                    =>$vendor['id'],
+            'id'                        =>$vendor['vendor_id'],
+            'label'                     =>$vendor['vendor_label'],
+            'next_po_number'            =>$next_po_number,
+            'shipping_method'           =>$shipping_method,
+            );
+            
+
+        //add to vedor value arrays
+        $vendor_ids[] = $vendor['id'];
+        $vendor_codes[] = $vendor['vendor_id'];
+
+        //create the select options
+        $vendorSelectHtml .= '<option 
+            data-inv-file="' . $vendor['file_name'] . '" 
+            data-inv-uid-col="' . $vendor['inv_uid_col'] . '" 
+            data-inv-qty-col="' . $vendor['inv_qty_col'] . '" 
+            data-inv-col-count="' . $vendor['inv_col_count'] . '" 
+            data-inv-vendor-label="' . $vendor['vendor_label'] . '" 
+            data-inv-po-table="' . $vendor['po_table'] . '" 
+            data-inv-po-item-table="' . $vendor['po_item_table'] . '" 
+            value="' . $vendor['id'] . '">' . $vendor['vendor_label'] . '</option>';
+
+        //add all values to observer array
+        $observerData['vendors'][ $vendor['id'] ]['inv_table_values'] = array(
+                'inv-file'          => $vendor['file_name'],
+                'inv-uid-col'       => $vendor['inv_uid_col'],
+                'inv-qty-col'       => $vendor['inv_qty_col'],
+                'inv-col-count'     => $vendor['inv_col_count'],
+                'inv-vendor-label'  => $vendor['vendor_label'],
+                'inv-po-table'      => $vendor['po_table'],
+                'inv-po-item-table' => $vendor['po_item_table']
+            );
+
+        //check if their are applicable products 
+        foreach( $this->_getVendorElligibleItems( $_orderId, $vendor['vendor_id'], $vendor['id'], $vendor['po_item_table'] ) as $items ){
+            //set product values
+            $product_avail_value = array(
+                'product_id'    => $items['product_id'],
+                'vendor_uid'    => $items['vendor_uid'],
+                'order_item_id' => $items['item_id'],
+                'qty_avail'     => $items['qty_avail'],
+                'expected_date' => $items['expected_date'],
+                'vendor_cost'   => $items['vendor_cost'],
+                );
+
+            //add to array for use in form
+            $vendorProducts[ $vendor['id'] ][$items['product_id']] = $product_avail_value;
+            //add to array for use in observer script
+            $observerData['vendors'][ $vendor['id'] ]['avail_prds'][] = $product_avail_value;
+        }
+    }
+
+    $this->createEventsForObserver($observerData);
+
+?>
+<?php foreach($this->_getVendors() as $vendor ) : ?>
+<?php if( !empty( $vendorProducts[ $vendor['id'] ] ) ) : ?>
+<form action="#" id="vendor_order_processor_<?php echo $vendor['id'] ?>" method="post">
+    <div id="gift_options_form_contents">
+    <div class="entry-edit">
+        <div class="section-config">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__( 'Process Products to ' . $vendor['vendor_label'] ) ?></h4>
+            </div>
+            <div class="fieldset" id="grop_fields">
+                <div id="sales_order_tabs_process_container">
+                    <p>Below is a list of all products that are elligible to source to <?php echo $vendor['vendor_label'] ?>. If you do not see a product listed here it is most likely because the cendor unique identifier has not been configured.</p>
+                    <p style="font-size: 10px;font-weight: bold;color: #999">NOTE: You may source products to <?php echo $vendor['vendor_label'] ?> that you have already sourced to another vendor.</p>
+                    <br style="display:block;height:30px;">
+                    <div class="grid">
+                        <div class="form-group">
+                            <table cellspacing="0" class="data vendor-process-order-tables" data-sub-button-id="nps_process_order_to_<?php echo $vendor['id'] ?>">
+                                <colgroup>
+                                <col width="1">
+                                </colgroup>
+                                <colgroup>
+                                <col width="1">
+                                <col width="1">
+                                <col width="1">
+                                <col width="1">
+                                </colgroup>
+                                <colgroup>
+                                <col width="1">
+                                <col width="1">
+                                <col width="1">
+                                <col width="1">
+                                <col width="1">
+                                </colgroup>
+                                <colgroup>
+                                <col width="1">
+                                <col width="1">
+                                <col width="1">
+                                <col width="1">
+                                </colgroup>
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="a-center">Include</th>
+
+                                        <th class="a-center"><span class="nobr">Internal Product ID</span></th>
+                                        <th class="a-center"><span class="nobr">Vendor Product ID</span></th>
+                                        <th class="a-center"><span class="nobr">QTY Ordered</span></th>
+                                        <th class="a-center"><span class="nobr">Vendor Avail</span></th>
+                                        <th class="a-center"><span class="nobr">Next ETA</span></th>
+
+                                        <th class="a-center"><span class="nobr">Revenue</span></th>
+                                        <th class="a-center"><span class="nobr">Tax Amount</span></th>
+                                        <th class="a-center"><span class="nobr">Tax Percent</span></th>
+                                        <th class="a-center"><span class="nobr">Discount Amount</span></th>
+
+                                        <th class="a-center">Subtotal</th>
+                                        <th class="a-center"><span class="nobr">Vendor Cost</span></th>                                
+                                        <th class="a-center"><span class="nobr">Est. Profit</span></th>
+                                        <th class="a-center last"><span class="nobr">Est. Margin</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="even">
+
+                                    <?php foreach( $this->_getItems( $_orderId ) as $order_product ): ?>
+                                        <?php if( !empty( $vendorProducts[ $vendor['id'] ][$order_product['product_id']] ) ) : ?>
+                                        <tr class="border">
+                                            <td class="a-center">
+                                                <input type="checkbox" class="vendor-source-indicator vendor-sibling-toggle" name="vendor_source_product_id[]" value="<?php echo $order_product['product_id'] ?>" data-toggle-control="vendor_source_item_id_<?php echo $order_product['item_id'] ?>" >
+                                                <input type="checkbox" id="vendor_source_item_id_<?php echo $order_product['item_id'] ?>" class="hidden" name="vendor_source_item_id[]" value="<?php echo $order_product['item_id'] ?>">
+                                            </td>
+
+                                            <td class="a-center"><?php echo $order_product['product_id'] ?></td>
+                                            <td class="a-center"><?php echo $vendorProducts[ $vendor['id'] ][$order_product['product_id']]['vendor_uid'] ?></td>
+                                            <td class="a-center"><?php echo number_format($order_product['qty_ordered'],0) ?></td>
+                                            <td class="a-center"><?php echo number_format($vendorProducts[ $vendor['id'] ][$order_product['product_id']]['qty_avail'],0) ?></td>
+                                            <td class="a-center">
+                                                <span class="date">
+                                                    <?php 
+                                                        if( empty( $vendorProducts[ $vendor['id'] ][$order_product['product_id']]['expected_date']  ) ){
+                                                            echo 'NONE SUPPLIED';
+                                                        } else {
+                                                            echo date('m/d/Y', strtotime( $vendorProducts[ $vendor['id'] ][$order_product['product_id']]['expected_date'] ) );
+                                                        }
+                                                        
+                                                    ?>
+                                                </span><br>
+                                            </td>
+
+                                            <td class="a-center"><span class="price">$<?php echo number_format($order_product['row_total'] ,2) ?></span></td>
+                                            <td class="a-center"><span class="price">$<?php echo number_format($order_product['tax_amount'],2) ?></span></td>
+                                            <td class="a-center"><?php echo $order_product['tax_percent'] ?>%</td>
+                                            <td class="a-center"><span class="price">$<?php echo number_format($order_product['discount_amount'],2) ?></span></td>
+
+                                            <td class="a-center"><span class="price">$<?php echo number_format($order_product['row_total_incl_tax'],2) ?></span></td>
+                                            <td class="a-center">
+                                                <span class="price">
+                                                    <?php 
+                                                        if( empty( $vendorProducts[ $vendor['id'] ][$order_product['product_id']]['vendor_cost']  ) ){
+                                                            echo 'NO VENDOR COST DATA';
+                                                        } else {
+                                                            echo '$' . number_format($vendorProducts[ $vendor['id'] ][$order_product['product_id']]['vendor_cost'],2);
+                                                        }
+                                                        
+                                                    ?>
+                                                </span>
+                                            </td>
+                                            <td class="a-center"><span class="price">$<?php echo number_format(0,2) ?></span></td>
+                                            <td class="a-center last">0%</td>
+                                        </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="clear:both;whitespace:normal;width:100%;height:45px;display:block;"></div>
+                    <div class="gird">
+                        <input type="hidden" name="nps_source_vendor_observer_info" value="<?php echo base64_encode(json_encode( $observerData ) ) ?>">
+                        <input type="hidden" name="nps_source_vendor_order_id" value="<?php echo $_orderId ?>">
+                        <input type="hidden" name="nps_source_vendor_id" value="<?php echo $vendor['id'] ?>">
+                        <input type="hidden" name="nps_source_vendor_po_number" value="<?php echo $observerData['vendors'][ $vendor['id'] ]['next_po_number'] ?>">
+                        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>">
+                        <button disabled id="nps_process_order_to_<?php echo $vendor['id'] ?>" title="Submit Order to <?php echo $vendor['vendor_label'] ?>" type="button" class="disabled scalable vendor-process-submit" data-vendor-label="<?php echo $vendor['vendor_label'] ?>"><span><span><span>Source Products to <?php echo $vendor['vendor_label'] ?></span></span></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<?php else: ?>
+<h3>There no elligible items remaining on this order.</h3>
+<?php endif; ?>
+<?php endforeach; ?>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        $(".vendor-process-submit").click(function(){
+            if( !$(this).hasClass("disabled") ){
+                var vendorLabel = $(this).data("vendorLabel");
+                event.preventDefault();
+                if(confirm('Are you sure you would like to source the selected products to '+vendorLabel)) {
+                   $(this).parents("form").submit();
+               } else {
+                   return false;
+               }
+            }
+        });
+
+        $('.vendor-source-indicator').change(function() {
+            var subButtonId = $(this).closest("table").data("subButtonId");
+            var subEnabled = false;
+
+            if(!$(this).is(":checked")) {
+                $(this).parents("table").children(".vendor-source-indicator").each(function(){
+                    if($(this).is(":checked")) {
+                        subEnabled = true;
+                    }
+                });
+            } else {
+                subEnabled =true;
+            }
+            
+            if( subEnabled ){
+                $("#"+subButtonId).removeAttr("disabled");
+                $("#"+subButtonId).removeClass("disabled");
+            } else {
+                $("#"+subButtonId).attr("disabled");
+                $("#"+subButtonId).addClass("disabled");
+            }
+        });
+        $(".vendor-sibling-toggle").change(function() {
+            var toggleID = $(this).data("toggleControl");
+
+            if(!$(this).is(":checked")) {
+                $("#"+toggleID).prop('checked', false);
+            } else {
+                $("#"+toggleID).prop('checked', true);
+            }
+        });
+    });
+</script>

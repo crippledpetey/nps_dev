@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * eBizCharge Magento Plugin.
+ * v1.0.4 - March 6th, 2013
+ *
+ * For assistance please contact support@ebizcharge.com
+ *
+ * Copyright (c) 2013 Century Business Solutions
+ * All rights reserved.
+ *
+ *
+ * @category    Mage
+ * @package     Mage_Ebizcharge_Block_Form
+ * @copyright   Copyright (c) 2013 Century Business Solutions  (www.centurybizsolutions.com)
+ */
+-->
+<config>
+    <modules>
+        <Mage_Ebizcharge>
+            <version>0.1.4</version>
+        </Mage_Ebizcharge>
+    </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <ebizcharge>
+                    <file>ebizcharge.xml</file>
+                </ebizcharge>
+            </updates>
+        </layout>
+        <routers>
+            <ebizcharge>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Ebizcharge</module>
+                    <frontName>ebizcharge</frontName>
+                </args>
+            </ebizcharge>
+        </routers>
+    </frontend>
+    <global>
+           <blocks>
+            <ebizcharge>
+                <class>Mage_Ebizcharge_Block</class>
+            </ebizcharge>
+        </blocks>
+        <helpers>
+            <ebizcharge>
+                <class>Mage_Ebizcharge_Helper</class>
+            </ebizcharge>
+        </helpers>
+        <models>
+            <ebizcharge>
+                <class>Mage_Ebizcharge_Model</class>
+                <resourceModel>ebizcharge_mysql4</resourceModel>
+            </ebizcharge>
+            <ebizcharge_mysql4>
+                <class>Mage_Ebizcharge_Model_Mysql4</class>
+                <entities>
+                    <token>
+                        <table>ebizcharge_token</table>
+                    </token>
+                </entities>
+            </ebizcharge_mysql4>
+        </models>
+        <resources>
+            <ebizcharge_setup>
+                <setup>
+                    <module>Mage_Ebizcharge</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </ebizcharge_setup>
+            <ebizcharge_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </ebizcharge_write>
+            <ebizcharge_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </ebizcharge_read>
+        </resources>
+        <fieldsets>
+            <sales_convert_quote_payment>
+                <ebzc_option>
+                    <to_order_payment>*</to_order_payment>
+                </ebzc_option>
+                <ebzc_cust_id>
+                    <to_order_payment>*</to_order_payment>
+                </ebzc_cust_id>
+                <ebzc_method_id>
+                    <to_order_payment>*</to_order_payment>
+                </ebzc_method_id>
+                <ebzc_avs_street>
+                    <to_order_payment>*</to_order_payment>
+                </ebzc_avs_street>
+                <ebzc_avs_zip>
+                    <to_order_payment>*</to_order_payment>
+                </ebzc_avs_zip>
+                <ebzc_save_payment>
+                    <to_order_payment>*</to_order_payment>
+                </ebzc_save_payment>
+            </sales_convert_quote_payment>
+        </fieldsets>
+     </global>
+    <default>
+        <payment>
+            <ebizcharge>
+                <model>ebizcharge/CCPaymentAction</model>
+                <title>eBizCharge Gateway</title>
+                <order_status>pending</order_status>
+                <title>Credit Card</title>
+                <active>0</active>
+                <allowspecific>0</allowspecific>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <payment_action>authorize</payment_action>
+                <currency>USD</currency>
+                <save_payment>0</save_payment>
+            </ebizcharge>
+        </payment>
+    </default>
+</config>

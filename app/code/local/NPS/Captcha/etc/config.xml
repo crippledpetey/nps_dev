@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * NPS CUSTOM CAPTCHA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Admin
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <NPS_Captcha>
+            <version>1.0.0</version>
+        </NPS_Captcha>
+    </modules>
+    <global>
+        <models>
+            <captcha>
+                <rewrite>
+                    <zend>NPS_Captcha_Model_Zend</zend>
+                </rewrite>
+            </captcha>
+        </models>
+    </global>
+    <default>
+        <captcha  translate="label">
+            <frontend>
+                <areas>
+                    <contact_us>
+                        <label>Contact us Form</label>
+                    </contact_us>
+                </areas>
+            </frontend>
+        </captcha>
+        <customer>
+            <captcha>
+                <always_for>
+                    <contact_us>1</contact_us>
+                </always_for>
+            </captcha>
+        </customer>
+    </default>
+    <frontend>
+        <routers>
+            <contacts>
+                <args>
+                    <modules>
+                        <nps_catcha before="Mage_Contacts">NPS_Captcha</nps_catcha>
+                    </modules>
+                </args>
+            </contacts>
+        </routers>
+    </frontend>
+</config>

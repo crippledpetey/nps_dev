@@ -1,0 +1,9 @@
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+			<action method="addCss"><name>slideshow/css/nivo.css</name></action>
+			<action method="addJs"><script>halo/jquery-1.8.3.min.js</script></action>
+			<action method="addItem"><type>skin_js</type><name>slideshow/js/jquery.nivo.slider.js</name></action>
+		</reference>
+	</default>
+</layout>
