@@ -23,7 +23,6 @@
  * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
 /**
  * Product description template
  *
@@ -31,11 +30,8 @@
  */
 require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/nps.shortcodes.class.php');
 require_once( Mage::getBaseDir('base') . '/app/code/local/NPS/BetterLayerNavigation/Helper/product.view.class.php');
-
 $npsSC = new needPlumbingShortcodes;
 $nps_prdctrl = new productView;
-
-
 $prd = $this->getProduct();
 $prd_vids = array();
 for( $i=1; $i<=6; $i++){
@@ -43,7 +39,6 @@ for( $i=1; $i<=6; $i++){
     //set video values
     $vid_attr_model = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'product_video_' . $i);
     $vid_attr_val = $vid_attr_model->getFrontend()->getValue($prd);
-
     $vid_title_attr_model = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'product_video_' . $i . '_title');
     $vid_title_attr_val = $vid_title_attr_model->getFrontend()->getValue($prd);
     
@@ -83,21 +78,20 @@ for( $i=1; $i<=6; $i++){
 <?php if ($_description): ?>
     <h2><?php echo $this->__('Product Description') ?></h2>
     <div class="std">
-
         <?php
-        	//get the description
-        	$prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
-        	//get array of description shortcode locations
-        	$shortcodes = $npsSC->getShotcodeLocations( $prd_desc );        	
-        	//if there are shortcodes process them
-        	if( $shortcodes ){
-        		//get the data
-        		$shortcodes = $npsSC->getShortcodeData( $shortcodes, $prd_desc );
-        		//reset the description with the new shortcodes
-        		$prd_desc = $npsSC->processShortcodeData( $shortcodes, $prd_desc );
-        	}
-        	//ouput description
-        	echo $prd_desc;
+            //get the description
+            $prd_desc = $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description');
+            //get array of description shortcode locations
+            $shortcodes = $npsSC->getShotcodeLocations( $prd_desc );            
+            //if there are shortcodes process them
+            if( $shortcodes ){
+                //get the data
+                $shortcodes = $npsSC->getShortcodeData( $shortcodes, $prd_desc );
+                //reset the description with the new shortcodes
+                $prd_desc = $npsSC->processShortcodeData( $shortcodes, $prd_desc );
+            }
+            //ouput description
+            echo $prd_desc;
         ?>
     </div>
 <?php endif; ?>
@@ -107,5 +101,4 @@ for( $i=1; $i<=6; $i++){
     echo $nps_prdctrl->getSpecs( $prd, $npsSC );
     echo $nps_prdctrl->getTech( $prd, $npsSC );
     echo $nps_prdctrl->getMaint( $prd, $npsSC );
-
 ?>
