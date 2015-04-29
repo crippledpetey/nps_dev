@@ -97,8 +97,9 @@ for( $i=1; $i<=6; $i++){
 <?php endif; ?>
 <?php
     //output special description regions (attribute controlled)
+    
     echo $nps_prdctrl->getFeatures( $prd, $npsSC );
-    echo $nps_prdctrl->getSpecs( $prd, $npsSC );
     echo $nps_prdctrl->getTech( $prd, $npsSC );
+    echo $nps_prdctrl->getSpecs( $prd, $npsSC );
     echo $nps_prdctrl->getMaint( $prd, $npsSC );
 ?>
