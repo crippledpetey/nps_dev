@@ -37,19 +37,26 @@ $prd_vids = array();
 for( $i=1; $i<=6; $i++){
     $value = array();
     //set video values
-    $vid_attr_model = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'product_video_' . $i);
+    $attr_core = Mage::getModel('eav/entity_attribute');
+    $vid_attr_model = $attr_core->loadByCode('catalog_product', 'product_video_' . $i);
     $vid_attr_val = $vid_attr_model->getFrontend()->getValue($prd);
-    $vid_title_attr_model = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'product_video_' . $i . '_title');
+    $vid_title_attr_model = $attr_core->loadByCode('catalog_product', 'product_video_' . $i . '_title');
     $vid_title_attr_val = $vid_title_attr_model->getFrontend()->getValue($prd);
+    $vid_alt_attr_model = $attr_core->loadByCode('catalog_product', 'product_video_' . $i . '_alt');
+    $vid_alt_attr_val = $vid_alt_attr_model->getFrontend()->getValue($prd);
     
     //set values
     $value['code'] = null;
     $value['title'] = null;
+    $value['alt'] = null;
     if( $vid_attr_val ){
         $value['code'] = $vid_attr_val;
     }
     if( $vid_title_attr_val ){
         $value['title'] = $vid_title_attr_val;
+    }
+    if( $vid_alt_attr_val ){
+        $value['alt'] = $vid_alt_attr_val;
     }
     if( !empty( $value['code'] ) ){
         $prd_vids[] = $value;
@@ -66,7 +73,9 @@ for( $i=1; $i<=6; $i++){
                 if( !empty( $video['code'] ) ){
                     $url = 'https://www.youtube.com/watch?v=' . $video['code'] . '&html5=true';
                     $thumb = 'http://img.youtube.com/vi/' . $video['code'] . '/0.jpg';
-                    echo '<li><a class="trigger-video-pop tooltip" title="' . $video['title'] . '" data-trigger-id-key="' . $key . '" id="' . $key . '-video-pop-trigger" style="display: block;"><img src="' . $thumb . '"></a><div id="' . $key . '-video-pop" class="hidden video-pop"><a title="Close" class="video-pop-close fancybox-item fancybox-close" href="javascript:;"></a><iframe src="https://www.youtube.com/embed/' . $video['code'] . '" frameborder="0" allowfullscreen controls="controls" class="video-stream" x-webkit-airplay="allow" ></iframe></div></li>';
+                    echo '<li><a class="trigger-video-pop tooltip" title="' . $video['alt'] . '" data-trigger-id-key="' . $key . '" id="' . $key . '-video-pop-trigger" style="display: block;"><img src="' . $thumb . '"></a><div id="' . $key . '-video-pop" class="hidden video-pop"><a title="Close" class="video-pop-close fancybox-item fancybox-close" href="javascript:;"></a><iframe src="https://www.youtube.com/embed/' . $video['code'] . '" frameborder="0" allowfullscreen controls="controls" class="video-stream" x-webkit-airplay="allow" ></iframe></div><div align="center">' . $video['title']. '</div></li>';
+
+
                 }
             }
             ?>
